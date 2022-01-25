@@ -1,4 +1,4 @@
-import { Button, Textarea } from "@chakra-ui/react";
+import { Button, PopoverArrow, Textarea } from "@chakra-ui/react";
 import { CopyIcon, EditIcon } from "@chakra-ui/icons";
 import { Box, Container, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Spacer, Text, Tooltip } from "@chakra-ui/react";
 import { Clip } from "./Clip";
@@ -78,6 +78,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                   />
                 </PopoverTrigger>
                 <PopoverContent>
+                  <PopoverArrow />
                   <Text>Tags</Text>
                   <CreatableSelect
                     isMulti
