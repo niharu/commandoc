@@ -1,5 +1,5 @@
 import { CopyIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Container, Flex, IconButton, Spacer, Text } from "@chakra-ui/react";
+import { Box, Container, Flex, IconButton, Spacer, Text, Tooltip } from "@chakra-ui/react";
 import { Clip } from "./Clip";
 
 export const ClipItem: React.FC<{ clip: Clip }> = ({ clip }) => {
@@ -13,12 +13,14 @@ export const ClipItem: React.FC<{ clip: Clip }> = ({ clip }) => {
         <Box mt="1" pb="1.5" border='2px' borderColor="white" borderBottomColor='gray.200'>
           <Flex>
             <Box>
-              <IconButton
-                icon={<CopyIcon />}
-                onClick={copy}
+              <Tooltip label="copy">
+                <IconButton
+                  icon={<CopyIcon />}
+                  onClick={copy}
                 size="sm"
-                aria-label="コピー"
-              />
+                  aria-label="コピー"
+                />
+                </Tooltip>
             </Box>
             <Text
               ml="3"
