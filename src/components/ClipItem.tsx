@@ -37,9 +37,8 @@ export const ClipItem: React.FC<{ clip: Clip }> = ({ clip }) => {
             />
           </Flex>
         </Box>
-        {/* <Box mt="1" ml="12" border="2px" borderRadius="md" borderColor="gray.200"> */}
-        <Box mt="1" ml="10" >
-          <Text ml="1.5" fontSize="md">{clip.description}</Text>
+        <Box mt="1" ml="10">
+          <Text fontSize="md">{clip.description}</Text>
         </Box>
       </Container>
     </>
