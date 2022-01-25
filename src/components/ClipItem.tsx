@@ -17,7 +17,7 @@ export const ClipItem: React.FC<{ clip: Clip }> = ({ clip }) => {
                 <IconButton
                   icon={<CopyIcon />}
                   onClick={copy}
-                size="sm"
+                  size="xs"
                   aria-label="コピー"
                 />
                 </Tooltip>
@@ -30,7 +30,7 @@ export const ClipItem: React.FC<{ clip: Clip }> = ({ clip }) => {
             </Text>
             <Spacer />
             <IconButton
-              size="sm"
+              size="xs"
               icon={<EditIcon />}
               backgroundColor="teal.100"
               aria-label="edit"
