@@ -68,7 +68,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                 {command}
               </Text>
               <Spacer />
-              <Popover>
+              <Popover placement="right">
                 <PopoverTrigger>
                   <IconButton
                     size="xs"
