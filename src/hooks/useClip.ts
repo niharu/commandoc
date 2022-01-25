@@ -46,11 +46,22 @@ export const useClip = () => {
     setFilteredClips(results.map((result: any) => result.item));
   };
 
+  const updateClip = async (clip: Clip) => {
+    console.log("update clip:", clip);
+    await ClipAPI.updateClip(clip);
+  }
+
+  const deleteClip = async(id: string) => {
+    await ClipAPI.deleteClip(id);
+  }
+
   return {
     clips,
     searchClips,
     addClip,
     filterClips,
-    filteredClips
+    filteredClips,
+    updateClip,
+    deleteClip
   };
 };

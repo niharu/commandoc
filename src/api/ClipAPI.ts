@@ -1,5 +1,5 @@
 import { collection, setDoc, query, where } from "firebase/firestore";
-import { getFirestore, getDocs, doc, writeBatch } from "firebase/firestore";
+import { getFirestore, getDocs, doc, updateDoc, deleteDoc} from "firebase/firestore";
 import { Clip } from "../components/Clip";
 
 import firebase from "firebase/compat/app";
@@ -26,3 +26,12 @@ export const addClip = async (clip: Clip) => {
   await setDoc(doc(db, "clips", clip.id), clip);
   return clip;
 };
+
+export const updateClip = async (clip: Clip) => {
+  const updateRef = doc(db, "clips", clip.id);
+  await updateDoc(updateRef, clip);
+}
+
+export const deleteClip = async(id: string) => {
+  await deleteDoc(doc(db, "clips", id));
+}

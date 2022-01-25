@@ -15,7 +15,9 @@ function App() {
     searchClips,
     addClip,
     filterClips,
-    filteredClips
+    filteredClips,
+    updateClip,
+    deleteClip
   } = useClip();
 
   const { loading, isSignedIn, user } = useAuthState();
@@ -63,7 +65,7 @@ function App() {
         searchWord={searchWord}
         handleChangeSearchWord={handleChangeSearchWord}
       />
-      <Clips clips={filteredClips} />
+      <Clips clips={filteredClips} tags={tags} updateClip={updateClip} addTags={addTags} handleChangeTags={handleChangeTags} deleteClip={deleteClip}/>
     </Container>
   );
 }
