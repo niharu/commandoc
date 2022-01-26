@@ -31,6 +31,10 @@ export const useClip = () => {
 
   const filterClips = (searchWord: string) => {
 
+    if(searchWord === null || searchWord === "") {
+      setFilteredClips(clips);
+      return;
+    }
     const options = {
       threshold: 0.3,
       keys: [
