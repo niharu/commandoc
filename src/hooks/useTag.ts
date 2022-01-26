@@ -17,10 +17,6 @@ export const useTag = () => {
     setTags([...tags, ...newTags]);
   };
 
-  const handleChangeFilterTags = (e: any) => {
-    setFilterTags(e);
-  };
-
   const handleChangeTags = (e: any) => {
     setTags(e);
   };
@@ -30,7 +26,6 @@ export const useTag = () => {
     filterTags,
     searchTags,
     addTags,
-    handleChangeFilterTags,
     handleChangeTags
   };
 };

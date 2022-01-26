@@ -50,6 +50,17 @@ export const useClip = () => {
     setFilteredClips(results.map((result: any) => result.item));
   };
 
+  const filterClipsWithTags = (tags: Tag[]) => {
+
+    if(tags === null || tags.length === 0) {
+      setFilteredClips(clips);
+      return;
+    }
+
+    const strTags: string[] = tags.map((tag) => tag.value);
+    setFilteredClips(clips.filter((clip: Clip) => clip.tags.some((tag) => strTags.includes(tag))));
+  };
+
   const updateClip = async (clip: Clip) => {
     console.log("update clip:", clip);
     await ClipAPI.updateClip(clip);
@@ -66,6 +77,7 @@ export const useClip = () => {
     filterClips,
     filteredClips,
     updateClip,
-    deleteClip
+    deleteClip,
+    filterClipsWithTags 
   };
 };

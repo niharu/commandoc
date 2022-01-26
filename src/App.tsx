@@ -15,17 +15,22 @@ function App() {
     searchClips,
     filterClips,
     filteredClips,
+    filterClipsWithTags
   } = useClip();
 
   const { loading, isSignedIn, user } = useAuthState();
 
-  const { tags, filterTags, addTags, searchTags, handleChangeFilterTags, handleChangeTags } = useTag();
+  const { tags, filterTags, addTags, searchTags, handleChangeTags } = useTag();
 
   const [searchWord, setSearchWord] = useState('');
 
-  const handleChangeSearchWord = (e: any) => {
+  const handleChangeSearchWord = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
     filterClips(e.target.value);
+  };
+
+  const handleChangeFilterTags = (e: any) => {
+    filterClipsWithTags(e);
   };
 
   useEffect(() => {
