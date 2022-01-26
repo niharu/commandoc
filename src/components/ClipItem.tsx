@@ -1,6 +1,6 @@
-import { Button, PopoverArrow, Textarea } from "@chakra-ui/react";
+import { Button, HStack, PopoverArrow, Textarea } from "@chakra-ui/react";
 import { CopyIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Container, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Spacer, Text, Tooltip } from "@chakra-ui/react";
+import { Stack, Box, Container, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Spacer, Text, Tooltip } from "@chakra-ui/react";
 import { Clip } from "./Clip";
 import CreatableSelect from 'react-select/creatable';
 import { Tag } from "./Tag";
@@ -15,6 +15,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
   const defaultTags: any[] = clip.tags.map((tag) => { return { label: tag, value: tag } });
 
   const [clipTags, setClipTags] = useState<Tag[]>(defaultTags);
+  const [displayClipTags, setDisplayClipTags] = useState<Tag[]>(defaultTags);
 
   const [newTags, setNewTags] = useState<Tag[]>([]);
 
@@ -38,6 +39,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
       handleChangeTags(tags, ...newTags);
       setCommand(commandRef.current.value);
       setDescription(descriptionRef.current.value);
+      setDisplayClipTags(clipTags);
     }
   }
 
@@ -49,10 +51,10 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
   return (
     <>
       {exists &&
-        <Box p="2" border="3px" borderColor="black.100" >
-          <Box mt="5" pb="1.5" border='2px' borderColor="white" borderBottomColor='gray.200'>
-            <Flex>
-              <Box>
+        <>
+          <Box border="1px">
+            <Stack>
+              <HStack>
                 <Tooltip label="copy">
                   <IconButton
                     icon={<CopyIcon />}
@@ -61,49 +63,50 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                     aria-label="コピー"
                   />
                 </Tooltip>
-              </Box>
-              <Text
-                ml="3"
-                fontSize="md"
-              >
-                {command}
-              </Text>
-              <Spacer />
-              {clip.tags.map((tag) => <TagUi size="sm" colorScheme="telegram" mr="1">{tag}</TagUi>)}
-              <Popover placement="right">
-                <PopoverTrigger>
-                  <IconButton
-                    size="xs"
-                    icon={<EditIcon />}
-                    aria-label="edit"
-                  />
-                </PopoverTrigger>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <Text>Tags</Text>
-                  <CreatableSelect
-                    isMulti
-                    onChange={handleChangeCategory}
-                    options={tags}
-                    defaultValue={defaultTags}
-                  />
-                  <Text mt="3">Command</Text>
-                  <Textarea ref={commandRef} defaultValue={clip.command} />
-                  <Text mt="3">Description</Text>
-                  <Textarea ref={descriptionRef} defaultValue={clip.description} />
-                  <Flex>
-                    <Button mt="3" onClick={handleClickSave}>Save</Button>
-                    <Spacer />
-                    <Button mt="3" onClick={handleClickDelete}>Delete</Button>
-                  </Flex>
-                </PopoverContent>
-              </Popover>
-            </Flex>
+                <Box>
+                  <Text
+                    fontSize="md"
+                  >
+                    {command}
+                  </Text>
+                </Box>
+                <Spacer />
+                <Popover placement="right">
+                  <PopoverTrigger>
+                    <IconButton
+                      size="xs"
+                      icon={<EditIcon />}
+                      aria-label="edit"
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <Text>Tags</Text>
+                    <CreatableSelect
+                      isMulti
+                      onChange={handleChangeCategory}
+                      options={tags}
+                      defaultValue={defaultTags}
+                    />
+                    <Text>Command</Text>
+                    <Textarea ref={commandRef} defaultValue={clip.command} />
+                    <Text>Description</Text>
+                    <Textarea ref={descriptionRef} defaultValue={clip.description} />
+                    <Flex>
+                      <Button onClick={handleClickSave}>Save</Button>
+                      <Spacer />
+                      <Button onClick={handleClickDelete}>Delete</Button>
+                    </Flex>
+                  </PopoverContent>
+                </Popover>
+              </HStack>
+              <HStack>
+                {displayClipTags.map((tag: Tag) => <TagUi size="sm">{tag.label}</TagUi>)}
+              </HStack>
+              <Text fontSize="md">{description}</Text>
+            </Stack>
           </Box>
-          <Box mt="1" ml="10">
-            <Text fontSize="md">{description}</Text>
-          </Box>
-        </Box>
+        </>
       }
     </>
   );
