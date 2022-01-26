@@ -12,7 +12,9 @@ const db = getFirestore();
 
 export const searchClips: any = async (tags : Tag[]) => {
   if (tags===null || tags.length === 0) {
-    return [];
+    const querySnapShot = await getDocs(collection(db, "clips"));
+    const clips = querySnapShot.docs.map((doc) => doc.data() as Clip);
+    return clips;
   }
 
   const conditionTags = tags.map((tag) => tag.value);
