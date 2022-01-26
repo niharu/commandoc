@@ -5,6 +5,7 @@ import { Clip } from "./Clip";
 import CreatableSelect from 'react-select/creatable';
 import { Tag } from "./Tag";
 import { useRef, useState } from "react";
+import { Tag as TagUi } from "@chakra-ui/react";
 
 export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addTags: any, handleChangeTags: any, deleteClip: any }> = ({ clip, tags, updateClip, addTags, handleChangeTags, deleteClip }) => {
   const copy = () => {
@@ -68,6 +69,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                 {command}
               </Text>
               <Spacer />
+              {clip.tags.map((tag) => <TagUi size="sm" colorScheme="telegram" mr="1">{tag}</TagUi>)}
               <Popover placement="right">
                 <PopoverTrigger>
                   <IconButton
