@@ -13,9 +13,12 @@ import { Title } from './components/Title';
 function App() {
   const {
     searchClips,
+    addClip,
     filterClips,
     filteredClips,
-    filterClipsWithTags
+    filterClipsWithTags,
+    updateClip,
+    deleteClip
   } = useClip();
 
   const { loading, isSignedIn, user } = useAuthState();
@@ -49,7 +52,7 @@ function App() {
         </Box>
         <Spacer />
         {isSignedIn ?
-          <AddClip addTags={addTags} tags={tags} handleChangeTags={handleChangeTags} />
+          <AddClip addClip={addClip} addTags={addTags} tags={tags} handleChangeTags={handleChangeTags} />
           :
           <Box>
             <Login loading={loading} isSignedIn={isSignedIn} user={user} />
@@ -67,7 +70,7 @@ function App() {
         searchWord={searchWord}
         handleChangeSearchWord={handleChangeSearchWord}
       />
-      <Clips clips={filteredClips} tags={tags} addTags={addTags} handleChangeTags={handleChangeTags} />
+      <Clips clips={filteredClips} tags={tags} updateClip={updateClip} addTags={addTags} handleChangeTags={handleChangeTags} deleteClip={deleteClip}/>
     </Container>
   );
 }

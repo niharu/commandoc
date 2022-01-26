@@ -6,17 +6,11 @@ import CreatableSelect from 'react-select/creatable';
 import { Tag } from "./Tag";
 import { useRef, useState } from "react";
 import { Tag as TagUi } from "@chakra-ui/react";
-import { useClip } from "../hooks/useClip";
 
-export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], addTags: any, handleChangeTags: any, }> = ({ clip, tags, addTags, handleChangeTags }) => {
+export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addTags: any, handleChangeTags: any, deleteClip: any }> = ({ clip, tags, updateClip, addTags, handleChangeTags, deleteClip }) => {
   const copy = () => {
     navigator.clipboard.writeText(clip.command);
   }
-
-  const {
-    updateClip,
-    deleteClip
-  } = useClip();
 
   const defaultTags: any[] = clip.tags.map((tag) => { return { label: tag, value: tag } });
 
