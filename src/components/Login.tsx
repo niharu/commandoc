@@ -37,7 +37,7 @@ export const Login: React.FC<{loading: boolean, isSignedIn: boolean, user: any}>
   return (
     <div>
       {loading ?
-        <p>ロード中...</p> :
+        <></> :
         <>
           {isSignedIn ?
             <>
