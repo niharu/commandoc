@@ -6,13 +6,16 @@ import { useRef, useState } from "react";
 import React from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { Tag } from "./Tag";
+import { useClip } from "../hooks/useClip";
 
-export const AddClip: React.FC<{ addClip: any, addTags: any, tags: Tag[], handleChangeTags: any }> = ({ addClip, addTags, tags, handleChangeTags }) => {
+export const AddClip: React.FC<{ addTags: any, tags: Tag[], handleChangeTags: any }> = ({ addTags, tags, handleChangeTags }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [clipTags, setClipTags] = useState<Tag[]>([]);
 
   const [newTags, setNewTags] = useState<Tag[]>([]);
+
+  const { addClip } = useClip();
 
   const commandRef = useRef<any>(null);
   const descriptionRef = useRef<any>(null);
