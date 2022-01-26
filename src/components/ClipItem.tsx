@@ -101,7 +101,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                 </Popover>
               </HStack>
               <HStack>
-                {displayClipTags.map((tag: Tag) => <TagUi size="sm">{tag.label}</TagUi>)}
+                {displayClipTags.map((tag: Tag) => <TagUi key={tag.value} size="sm">{tag.label}</TagUi>)}
               </HStack>
               <Text fontSize="md">{description}</Text>
             </Stack>
