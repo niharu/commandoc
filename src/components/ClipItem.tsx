@@ -6,7 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 import { Tag } from "./Tag";
 import { useRef, useState } from "react";
 
-export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addTags: any, handleChangeTags: any ,deleteClip: any}> = ({ clip, tags, updateClip, addTags, handleChangeTags ,deleteClip}) => {
+export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addTags: any, handleChangeTags: any, deleteClip: any }> = ({ clip, tags, updateClip, addTags, handleChangeTags, deleteClip }) => {
   const copy = () => {
     navigator.clipboard.writeText(clip.command);
   }
@@ -48,8 +48,8 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
   return (
     <>
       {exists &&
-        <Container p={{ base: "4", md: "6" }} maxWidth="3xl">
-          <Box mt="1" pb="1.5" border='2px' borderColor="white" borderBottomColor='gray.200'>
+        <Box p="2" border="3px" borderColor="black.100" >
+          <Box mt="5" pb="1.5" border='2px' borderColor="white" borderBottomColor='gray.200'>
             <Flex>
               <Box>
                 <Tooltip label="copy">
@@ -73,7 +73,6 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                   <IconButton
                     size="xs"
                     icon={<EditIcon />}
-                    backgroundColor="teal.100"
                     aria-label="edit"
                   />
                 </PopoverTrigger>
@@ -90,8 +89,11 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                   <Textarea ref={commandRef} defaultValue={clip.command} />
                   <Text mt="3">Description</Text>
                   <Textarea ref={descriptionRef} defaultValue={clip.description} />
-                  <Button mt="3" onClick={handleClickSave}>Save</Button>
-                  <Button mt="3" onClick={handleClickDelete}>Delete</Button>
+                  <Flex>
+                    <Button mt="3" onClick={handleClickSave}>Save</Button>
+                    <Spacer />
+                    <Button mt="3" onClick={handleClickDelete}>Delete</Button>
+                  </Flex>
                 </PopoverContent>
               </Popover>
             </Flex>
@@ -99,7 +101,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
           <Box mt="1" ml="10">
             <Text fontSize="md">{description}</Text>
           </Box>
-        </Container>
+        </Box>
       }
     </>
   );

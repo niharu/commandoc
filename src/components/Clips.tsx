@@ -8,7 +8,7 @@ export const Clips: React.FC<{clips: Clip[], tags: Tag[], updateClip: any, addTa
     <>
       {clips.length !== 0 && (
         <>
-          <List w="full" mt="3" spacing={-8}>
+          <List w="full" >
             {clips.map((clip: Clip) => (
               <ClipItem
                 key={clip.id}
