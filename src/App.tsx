@@ -61,7 +61,7 @@ function App() {
       />
       <IncrementalSearch
         mt={3}
-        placeholder="検索"
+        placeholder="絞り込み"
         searchWord={searchWord}
         handleChangeSearchWord={handleChangeSearchWord}
       />
