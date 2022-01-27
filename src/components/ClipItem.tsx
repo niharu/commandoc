@@ -4,10 +4,11 @@ import { Stack, Box, Container, Flex, IconButton, Popover, PopoverContent, Popov
 import { Clip } from "./Clip";
 import CreatableSelect from 'react-select/creatable';
 import { Tag } from "./Tag";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Tag as TagUi } from "@chakra-ui/react";
+import { TagContext } from "../provider/TagProvider";
 
-export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addTags: any, handleChangeTags: any, deleteClip: any }> = ({ clip, tags, updateClip, addTags, handleChangeTags, deleteClip }) => {
+export const ClipItem: React.FC<{ clip: Clip,  updateClip: any,  deleteClip: any }> = ({ clip,  updateClip,  deleteClip }) => {
   const copy = () => {
     navigator.clipboard.writeText(clip.command);
   }
@@ -27,6 +28,8 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
 
   const [exists, setExists] = useState<boolean>(true);
 
+  const tag = useContext(TagContext);
+
   const handleChangeCategory = (selectedTags: any) => {
     setClipTags(selectedTags.map((tag: any) => { return { value: tag.value, label: tag.label }; }));
     setNewTags(selectedTags.filter((tag: any) => tag.__isNew__).map((tag: any) => { return { value: tag.value, label: tag.label }; }));
@@ -35,8 +38,9 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
   const handleClickSave = () => {
     if (commandRef !== null && descriptionRef !== null && commandRef.current !== null && descriptionRef.current !== null) {
       updateClip({ id: clip.id, tags: clipTags.map((tag: Tag) => tag.value), command: commandRef.current.value, description: descriptionRef.current.value } as Clip);
-      addTags(newTags);
-      handleChangeTags(tags, ...newTags);
+      // tag?.addTags(newTags);
+      // const newNewTags = [...tag!.tags, ...newTags];
+      // tag?.handleChangeTags(newNewTags);
       setCommand(commandRef.current.value);
       setDescription(descriptionRef.current.value);
       setDisplayClipTags(clipTags);
@@ -85,7 +89,7 @@ export const ClipItem: React.FC<{ clip: Clip, tags: Tag[], updateClip: any, addT
                     <CreatableSelect
                       isMulti
                       onChange={handleChangeCategory}
-                      options={tags}
+                      options={[]}
                       defaultValue={defaultTags}
                     />
                     <Text>Command</Text>

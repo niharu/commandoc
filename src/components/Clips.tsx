@@ -3,7 +3,7 @@ import { Clip } from "./Clip";
 import { ClipItem } from "./ClipItem";
 import { Tag } from "./Tag";
 
-export const Clips: React.FC<{clips: Clip[], tags: Tag[], updateClip: any, addTags: any, handleChangeTags: any,deleteClip: any}> = ({clips, tags, updateClip, addTags, handleChangeTags, deleteClip}) => {
+export const Clips: React.FC<{clips: Clip[], updateClip: any, deleteClip: any}> = ({clips, updateClip,  deleteClip}) => {
   return (
     <>
       {clips.length !== 0 && (
@@ -13,10 +13,7 @@ export const Clips: React.FC<{clips: Clip[], tags: Tag[], updateClip: any, addTa
               <ClipItem
                 key={clip.id}
                 clip={clip}
-                tags={tags}
                 updateClip={updateClip}
-                addTags={addTags}
-                handleChangeTags={handleChangeTags}
                 deleteClip={deleteClip}
               />
             ))}
