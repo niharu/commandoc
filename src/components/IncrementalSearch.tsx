@@ -1,6 +1,7 @@
 import { Input } from "@chakra-ui/input";
 
 export const IncrementalSearch: React.FC<{ mt: number, placeholder: string, searchWord: string }> = ({ mt, placeholder, searchWord }) => {
+
   const handleChangeSearchWord = () => {
 
   }

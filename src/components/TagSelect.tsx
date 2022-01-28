@@ -7,12 +7,12 @@ export const TagSelect = () => {
   const selectedTag = useSelectedTags();
 
   const handleChangeTags = (e: any) => {
-    console.log("e:", e);
     selectedTag.setSelectedTags(e);
   }
 
   return (
     <Select
+      placeholder="タグでフィルター"
       options={tags}
       isMulti
       onChange={handleChangeTags}

@@ -5,6 +5,7 @@ const theme = extendTheme({
     global: {
       body: {
         color: "gray.800",
+        overflowY: "scroll",
       },
       p: {
         fontSize: {base: "md", md: "lg" },
