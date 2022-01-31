@@ -14,12 +14,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-      </BrowserRouter>
+      <App />
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')

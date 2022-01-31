@@ -67,6 +67,13 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
 
   const copy = () => {
     navigator.clipboard.writeText(document.command);
+    toast({
+      // title: 'Account created.',
+      description: "コマンドをクリップボードにコピーしました",
+      status: 'success',
+      duration: 3000,
+      // isClosable: true,
+    })
   }
 
   const changeTagColor = (tagName: string): string => {
@@ -81,7 +88,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
     const splitWords = command.split(/(\*.+?\*)/);
     let i = 0;
     return (
-      <Text fontSize="md" as="samp">
+      <Text fontSize="md">
         {splitWords.map((word) => {
           if (word.startsWith("*") && word.endsWith("*")) {
             return <Text key={i++} fontSize="md" as="i">{word.replaceAll("*", "")}</Text>;
@@ -91,6 +98,11 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
         })}
       </Text>
     );
+  }
+
+  const removeNewLine = (e: any) => {
+    const str: string = commandRef.current.value;
+    commandRef.current.value = str.replace(/\n/g, "");
   }
 
   return (
@@ -127,16 +139,16 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
               <Tooltip label="copy">
                 <IconButton
                   icon={<CopyIcon />}
-                  // onClick={copy}
-                  onClick={() =>
-                    toast({
-                      // title: 'Account created.',
-                      description: "コマンドをクリップボードにコピーしました",
-                      status: 'success',
-                      duration: 3000,
-                      // isClosable: true,
-                    })
-                  }
+                  onClick={copy}
+                  // onClick={() =>
+                  //   toast({
+                  //     // title: 'Account created.',
+                  //     description: "コマンドをクリップボードにコピーしました",
+                  //     status: 'success',
+                  //     duration: 3000,
+                  //     // isClosable: true,
+                  //   })
+                  // }
                   size="xs"
                   aria-label="コピー"
                 />
@@ -158,7 +170,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                       />
                       <StackDivider />
                       <FormLabel>Command</FormLabel>
-                      <Textarea ref={commandRef} defaultValue={document.command} placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります" />
+                      <Textarea ref={commandRef} onChange={removeNewLine} defaultValue={document.command} placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります" />
                       <StackDivider />
                       <FormLabel>Description</FormLabel>
                       <Textarea ref={descriptionRef} defaultValue={document.description} placeholder="コマンドの説明を入力" />

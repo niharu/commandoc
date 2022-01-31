@@ -18,6 +18,7 @@ import { useSettings } from "../hooks/useSetings";
 import { Login } from "./Login";
 import { useLoading } from "../hooks/useLoading";
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { Link } from "react-router-dom";
 
 export const UserMenu = () => {
   const user = useLoginUser();
@@ -82,9 +83,7 @@ export const UserMenu = () => {
                   {user &&
                     <>
                       <MenuDivider />
-                      <MenuGroup title="ユーザー">
-                        <MenuItem onClick={logout}>ログアウト</MenuItem>
-                      </MenuGroup>
+                      <MenuItem onClick={logout}>ログアウト</MenuItem>
                     </>
                   }
                 </MenuList>

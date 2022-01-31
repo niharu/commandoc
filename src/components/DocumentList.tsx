@@ -34,6 +34,7 @@ export const DocumentList = () => {
 
       const options = {
         threshold: 0.3,
+        useExtendedSearch: true,
         keys: [
           "command",
           "description",
@@ -65,16 +66,17 @@ export const DocumentList = () => {
         </>
       )
         :
-        <>
-          {/* <Text>コマンドが見つかりませんでした</Text> */}
-          {/* <Fade in={true}>
-            <Alert status='warning'>
-              <AlertIcon />
-              該当するコマンドがありませんでした。
-            </Alert>
-          </Fade> */}
-        </>
-
+        <></>
+        // (settings.filterMyCommand &&
+        //   <>
+        //     <Fade in={true}>
+        //       <Alert mb="2" mt="2" status='warning'>
+        //         <AlertIcon />
+        //         「自分が投稿したコマンドのみ表示」が有効になっています。
+        //       </Alert>
+        //     </Fade>
+        //   </>
+        // )
       }
     </>
   );

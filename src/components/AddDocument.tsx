@@ -14,6 +14,7 @@ import * as TagAPI from "../api/TagAPI";
 import { useTags } from "../hooks/useTags";
 import { ulid } from "ulid";
 import { useLoginUser } from "../hooks/useLoginUser";
+import { AddIcon } from "@chakra-ui/icons";
 
 export const AddDocument = () => {
   const user = useLoginUser();
@@ -54,9 +55,14 @@ export const AddDocument = () => {
     }
   }
 
+  const removeNewLine = (e: any) => {
+    const str: string = commandRef.current.value;
+    commandRef.current.value = str.replace(/\n/g, "");
+  }
+
   return (
     <>
-      <Button colorScheme="teal" onClick={onOpen}>Add new</Button>
+      <Button colorScheme="teal" onClick={onOpen} leftIcon={<AddIcon />}>投稿</Button>
       <Modal size="lg" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -76,6 +82,7 @@ export const AddDocument = () => {
               <Textarea
                 ref={commandRef}
                 placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります"
+                onChange={removeNewLine}
               />
               <StackDivider />
               <FormLabel>Description</FormLabel>

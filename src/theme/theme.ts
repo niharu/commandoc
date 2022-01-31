@@ -9,7 +9,8 @@ const theme = extendTheme({
       },
       p: {
         fontSize: {base: "md", md: "lg" },
-        lineHeight: "tall"
+        lineHeight: "tall",
+        whiteSpace: "pre-wrap",
       }
     }
   }
