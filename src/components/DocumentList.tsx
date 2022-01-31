@@ -76,12 +76,6 @@ export const DocumentList = () => {
         </>
 
       }
-      <Center>
-        <Text fontSize="xs">Created by niharu</Text>
-      </Center>
-      <Center>
-        <Text fontSize="xs">about</Text>
-      </Center>
     </>
   );
 };

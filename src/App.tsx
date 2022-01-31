@@ -10,6 +10,7 @@ import { TagProvider } from './provider/TagProvider';
 import { UserProvider } from './provider/UserProvider';
 import { FilterWordProvider } from './provider/FilterWordProvider';
 import { UserSettingsProvider } from './provider/UserSettingsProvider';
+import { Link } from 'react-router-dom';
 
 function App() {
 
@@ -38,6 +39,12 @@ function App() {
             </TagProvider>
           </UserSettingsProvider>
         </UserProvider>
+        <Center>
+          <Text fontSize="xs">Created by niharu</Text>
+        </Center>
+        <Center>
+          <Link to="/about">about</Link>
+        </Center>
       </Container>
     </>
   );
