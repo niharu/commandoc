@@ -1,4 +1,4 @@
-import { Container, List, Text, Alert, AlertIcon ,Fade} from "@chakra-ui/react";
+import { Container, List, Text, Alert, AlertIcon, Fade, Center, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDocument } from "../hooks/useDocument";
 import { useFilterWord } from "../hooks/useFilterWord";
@@ -76,6 +76,12 @@ export const DocumentList = () => {
         </>
 
       }
+      <Center>
+        <Text fontSize="xs">Created by niharu</Text>
+      </Center>
+      <Center>
+        <Text fontSize="xs">about</Text>
+      </Center>
     </>
   );
 };

@@ -75,7 +75,7 @@ export const AddDocument = () => {
               <FormLabel>Command</FormLabel>
               <Textarea
                 ref={commandRef}
-                placeholder="コマンドを入力&#13;&#10;アスタリスク(*)で囲むと斜体になります"
+                placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります"
               />
               <StackDivider />
               <FormLabel>Description</FormLabel>

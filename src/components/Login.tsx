@@ -8,7 +8,7 @@ import { firebaseConfig } from "../config/config"
 import 'firebase/compat/auth';
 import { GithubAuthProvider } from "firebase/auth";
 
-const provider = new GithubAuthProvider();
+// const provider = new GithubAuthProvider();
 
 const uiConfig = {
   signInFlow: 'popup',

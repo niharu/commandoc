@@ -57,33 +57,40 @@ export const UserMenu = () => {
     <>
       <Fade in={true}>
         <HStack>
-          {user && !loading ?
-            <>
+          <>
+            {user && !loading ?
               <AddDocument />
-              <Box>
-                <Menu closeOnSelect={false}>
-                  <MenuButton as={IconButton} icon={<HamburgerIcon />}></MenuButton>
-                  <MenuList>
-                    {/* <MenuItem><Avatar size="xs" name={displayName} src={photoURL} onClick={tmp} /><Text ml="2" fontSize="xs">{displayName}</Text></MenuItem> */}
-                    <MenuOptionGroup title="設定" type='checkbox' onChange={handleChangeSettings}>
-                      <MenuItemOption value="filterMyCommand" >自分が作成したコマンドのみ表示</MenuItemOption>
-                    </MenuOptionGroup>
-                    <MenuDivider />
-                    <MenuOptionGroup defaultValue={colorMode} title="カラーモード" type='radio' onChange={handleChangeColorMode}>
-                      <MenuItemOption value="light" >ライト</MenuItemOption>
-                      <MenuItemOption value="dark" >ダーク</MenuItemOption>
-                    </MenuOptionGroup>
-                    <MenuDivider />
-                    <MenuGroup title="ユーザー">
-                      <MenuItem onClick={logout}>ログアウト</MenuItem>
-                    </MenuGroup>
-                  </MenuList>
-                </Menu>
-              </Box>
-            </>
-            :
-            <Login />
-          }
+              :
+              <Login />
+            }
+            <Box>
+              <Menu closeOnSelect={false}>
+                <MenuButton as={IconButton} icon={<HamburgerIcon />}></MenuButton>
+                <MenuList>
+                  {user &&
+                    <>
+                      <MenuOptionGroup title="設定" type='checkbox' onChange={handleChangeSettings}>
+                        <MenuItemOption value="filterMyCommand" >自分が作成したコマンドのみ表示</MenuItemOption>
+                      </MenuOptionGroup>
+                      <MenuDivider />
+                    </>
+                  }
+                  <MenuOptionGroup defaultValue={colorMode} title="カラーモード" type='radio' onChange={handleChangeColorMode}>
+                    <MenuItemOption value="light" >ライト</MenuItemOption>
+                    <MenuItemOption value="dark" >ダーク</MenuItemOption>
+                  </MenuOptionGroup>
+                  {user &&
+                    <>
+                      <MenuDivider />
+                      <MenuGroup title="ユーザー">
+                        <MenuItem onClick={logout}>ログアウト</MenuItem>
+                      </MenuGroup>
+                    </>
+                  }
+                </MenuList>
+              </Menu>
+            </Box>
+          </>
         </HStack>
       </Fade>
     </>

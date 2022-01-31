@@ -158,7 +158,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                       />
                       <StackDivider />
                       <FormLabel>Command</FormLabel>
-                      <Textarea ref={commandRef} defaultValue={document.command} placeholder="コマンドを入力&#13;&#10;アスタリスク(*)で囲むと斜体になります" />
+                      <Textarea ref={commandRef} defaultValue={document.command} placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります" />
                       <StackDivider />
                       <FormLabel>Description</FormLabel>
                       <Textarea ref={descriptionRef} defaultValue={document.description} placeholder="コマンドの説明を入力" />
