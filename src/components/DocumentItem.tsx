@@ -1,8 +1,8 @@
-import { Button, Divider, HStack, PopoverArrow, Textarea } from "@chakra-ui/react";
-import { CopyIcon, EditIcon } from "@chakra-ui/icons";
+import { Button, Divider, Fade, HStack, PopoverArrow, Textarea, useToast } from "@chakra-ui/react";
+import { CopyIcon, EditIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { FormLabel, Stack, StackDivider, Box, Container, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Spacer, Text, Tooltip } from "@chakra-ui/react";
 import { Clip } from "./Clip";
-import CreatableSelect from 'react-select/creatable';
+import { GroupBase, OptionBase, CreatableSelect } from "chakra-react-select";
 import { Tag } from "./Tag";
 import { useContext, useRef, useState } from "react";
 import { Tag as TagUi } from "@chakra-ui/react";
@@ -13,8 +13,12 @@ import * as TagAPI from "../api/TagAPI";
 import { useTags } from "../hooks/useTags";
 import { useSelectedTags } from "../hooks/useSelectedTag";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure } from '@chakra-ui/react'
+import { useLoginUser } from "../hooks/useLoginUser";
+import { createDocumentRegistry } from "typescript";
 
 export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => {
+  const toast = useToast();
+  const user = useLoginUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const tags = useTags();
   const selectedTags = useSelectedTags();
@@ -91,8 +95,8 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
 
   return (
     <>
-      {exists &&
-        <Box border="1px" borderColor="gray.400" borderRadius="md" mb="3" p="2">
+      <Fade in={exists}>
+        <Box border="1px" borderColor="gray.400" borderRadius="md" mb="3" p="2" shadow="md">
           <Stack>
             {replaceItalics()}
             {/* <Text fontSize="md" as="samp">{replaceItalics()}</Text> */}
@@ -101,48 +105,42 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
             <HStack>
               {documentTags.map((tag: Tag) => <TagUi key={tag.value} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>)}
               <Spacer />
-              <Tooltip label="copy">
-                <IconButton
-                  icon={<CopyIcon />}
-                  onClick={copy}
-                  size="xs"
-                  aria-label="コピー"
-                />
-              </Tooltip>
-              {/* <Popover placement="right">
-                <PopoverTrigger>
+              {user !== null && user?.uid === document.createUserId ?
+                <Tooltip label={"編集する"}>
                   <IconButton
                     size="xs"
                     icon={<EditIcon />}
                     aria-label="edit"
+                    onClick={onOpen}
+                    colorScheme="teal"
                   />
-                </PopoverTrigger>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <Text>Tags</Text>
-                  <CreatableSelect
-                    isMulti
-                    onChange={handleChangeCategory}
-                    options={tags}
-                    defaultValue={defaultTags}
+                </Tooltip>
+                :
+                <Tooltip label={"author: " + document.createUserName}>
+                  <IconButton
+                    size="xs"
+                    icon={<InfoOutlineIcon />}
+                    aria-label="edit"
                   />
-                  <Text>Command</Text>
-                  <Textarea ref={commandRef} defaultValue={document.command} />
-                  <Text>Description</Text>
-                  <Textarea ref={descriptionRef} defaultValue={document.description} />
-                  <Flex>
-                    <Button onClick={handleClickSave}>Save</Button>
-                    <Spacer />
-                    <Button onClick={handleClickDelete}>Delete</Button>
-                  </Flex>
-                </PopoverContent>
-              </Popover> */}
-              <IconButton
-                size="xs"
-                icon={<EditIcon />}
-                aria-label="edit"
-                onClick={onOpen}
-              />
+                </Tooltip>
+              }
+              <Tooltip label="copy">
+                <IconButton
+                  icon={<CopyIcon />}
+                  // onClick={copy}
+                  onClick={() =>
+                    toast({
+                      // title: 'Account created.',
+                      description: "コマンドをクリップボードにコピーしました",
+                      status: 'success',
+                      duration: 3000,
+                      // isClosable: true,
+                    })
+                  }
+                  size="xs"
+                  aria-label="コピー"
+                />
+              </Tooltip>
               <Modal size="lg" isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -155,7 +153,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                         options={tags}
                         isMulti
                         onChange={handleChangeCategory}
-                        placeholder="タグを5つまで入力"
+                        placeholder="タグを入力"
                         defaultValue={defaultTags}
                       />
                       <StackDivider />
@@ -165,12 +163,16 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                       <FormLabel>Description</FormLabel>
                       <Textarea ref={descriptionRef} defaultValue={document.description} placeholder="コマンドの説明を入力" />
                       <StackDivider />
+                      {/* <HStack>
+                        <Spacer />
+                        <Text fontSize="8px" colorScheme="gray" as="i">author: {user.displayName}</Text>
+                      </HStack> */}
                       <HStack>
-                        <Spacer/>
-                        <Button colorScheme="teal" onClick={handleClickSave}>Save</Button>
-                        <Spacer/>
-                        <Button colorScheme="red" onClick={handleClickDelete}>Delete</Button>
-                        <Spacer/>
+                        <Spacer />
+                        <Button w="200px" colorScheme="teal" onClick={handleClickSave}>保存</Button>
+                        <Spacer />
+                        <Button w="200px" colorScheme="red" onClick={handleClickDelete}>削除</Button>
+                        <Spacer />
                       </HStack>
                     </Stack>
                   </ModalBody>
@@ -179,7 +181,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
             </HStack>
           </Stack>
         </Box>
-      }
+      </Fade>
     </>
   );
 };

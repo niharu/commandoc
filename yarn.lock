@@ -3917,6 +3917,13 @@ case-sensitive-paths-webpack-plugin@^2.4.0:
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"
   integrity sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==
 
+chakra-react-select@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/chakra-react-select/-/chakra-react-select-3.0.3.tgz#59a10f3dce60379e55ee488852529426aeab9d69"
+  integrity sha512-obwzXZKB56nTZ3GpBhrq9Hdiec5jU/PXSpbRp8x7kX6sOoINyExZXHCEfLuTqA8q92+37hAU66GVNeiMNQS06A==
+  dependencies:
+    react-select "^5.2.2"
+
 chalk@^2.0.0, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"

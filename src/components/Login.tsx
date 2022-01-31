@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Fade, ScaleFade } from "@chakra-ui/react";
 
 import { useDisclosure } from "@chakra-ui/react"
 import { SignInScreen } from "./SignInScreen";
@@ -6,13 +6,16 @@ import { SignInScreen } from "./SignInScreen";
 import firebase from "firebase/compat/app";
 import { firebaseConfig } from "../config/config"
 import 'firebase/compat/auth';
+import { GithubAuthProvider } from "firebase/auth";
+
+const provider = new GithubAuthProvider();
 
 const uiConfig = {
   signInFlow: 'popup',
-  signInSuccessUrl: "/",
+  // signInSuccessUrl: "/",
   signInOptions: [
     // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    firebase.auth.GithubAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
 }
@@ -25,8 +28,10 @@ export const Login = () => {
   return (
     <div>
       <>
-        <Button colorScheme="blue" onClick={onOpen}>ログイン</Button>
-        <SignInScreen isOpen={isOpen} onClose={onClose} uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+        <Fade in={true}>
+          <Button onClick={onOpen}>login</Button>
+          <SignInScreen isOpen={isOpen} onClose={onClose} uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+        </Fade>
       </>
     </div>
   );

@@ -1,4 +1,4 @@
-import Select from 'react-select';
+import { GroupBase, OptionBase, Select } from "chakra-react-select";
 import { useSelectedTags } from '../hooks/useSelectedTag';
 import { useTags } from '../hooks/useTags';
 
