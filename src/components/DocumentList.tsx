@@ -30,7 +30,7 @@ export const DocumentList = () => {
       filteredDocumentTmp = filteredDocumentTmp.filter((document: Document) => document.tags.some((tag) => strTags.includes(tag)));
     }
 
-    if (filterWord?.filterWord && filterWord?.filterWord.length >= 2) {
+    if (filterWord?.filterWord) {
 
       const options = {
         threshold: 0.3,
@@ -49,7 +49,7 @@ export const DocumentList = () => {
       filteredDocumentTmp = results.map((result: any) => result.item);
     }
     setFilteredDocuments(filteredDocumentTmp);
-  }, [selectedTags, filterWord, documents, settings.filterMyCommand]);
+  }, [selectedTags, filterWord, documents, settings.filterMyCommand, user]);
 
   return (
     <>

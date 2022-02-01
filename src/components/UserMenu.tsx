@@ -27,6 +27,7 @@ export const UserMenu = () => {
   const { colorMode, toggleColorMode, setColorMode } = useColorMode();
 
   const logout = () => {
+    settings.setfilterMyCommand(false);
     firebase.auth().signOut();
   };
 

@@ -30,7 +30,7 @@ function App() {
                     <ScrollToTop>
                       <Flex mb={3}>
                         <Box>
-                          <Title fontSize={{ base: "2xl", md: "3xl" }} title="commandoc" as="h1" />
+                          <Title />
                         </Box>
                         <Spacer />
                         <UserMenu />

@@ -1,4 +1,4 @@
-import { Center, Container, Text, Heading, Stack, Divider, Box, List } from "@chakra-ui/react";
+import { Center, Container, Text, Heading, Stack, Divider, Box, List, Link as ChakraLink } from "@chakra-ui/react";
 import { Title } from "./Title";
 
 import { Button, Fade, HStack, PopoverArrow, Textarea, useToast } from "@chakra-ui/react";
@@ -19,7 +19,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseBu
 import { useLoginUser } from "../hooks/useLoginUser";
 import { createDocumentRegistry } from "typescript";
 import { Link } from "react-router-dom";
-import { GoMarkGithub } from "react-icons/go";
+import { AiFillGithub ,AiOutlineTwitter} from "react-icons/ai";
 
 export const About = () => {
   const documents = [
@@ -60,7 +60,7 @@ export const About = () => {
     },
     {
       command: "コマンドの投稿",
-      descriptino: "ログインすると、右上の「Add new」でコマンドが投稿できます。",
+      descriptino: "ログインすると、「投稿」でコマンドが投稿できます。",
       tags: ["ログイン時のみ"],
       user: null,
       iconDisplay: false,
@@ -139,8 +139,11 @@ export const About = () => {
           <Link to="/"><Text as="u">Home</Text></Link>
         </Center>
         <Center>
-          <Text fontSize="xs">Created by niharu</Text>
-          <GoMarkGithub />
+          <HStack>
+            <Text fontSize="xs">Created by niharu</Text>
+            <ChakraLink isExternal href="https://github.com/niharu/commandoc"><AiFillGithub /></ChakraLink>
+            <AiOutlineTwitter />
+          </HStack>
         </Center>
       </Stack>
     </>
