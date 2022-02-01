@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Fade, HStack, IconButton, ScaleFade, Text, useColorMode } from "@chakra-ui/react";
 import firebase from "firebase/compat/app";
+import { getAuth, deleteUser, reauthenticateWithCredential, GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { useLoginUser } from "../hooks/useLoginUser";
 import { AddDocument } from "./AddDocument";
 import {
@@ -29,6 +30,30 @@ export const UserMenu = () => {
   const logout = () => {
     settings.setfilterMyCommand(false);
     firebase.auth().signOut();
+  };
+
+  const deleteTmp = () => {
+    if (user !== null) {
+      const auth = getAuth();
+      const provider = new GithubAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const credential = GithubAuthProvider.credentialFromResult(result);
+          if (credential !== null) {
+            reauthenticateWithCredential(user, credential).then(() => {
+              deleteUser(user).then(() => {
+                alert("アカウントを削除しました");
+              }).catch((error) => {
+                alert("アカウント削除に失敗しました");
+              });
+            }).catch((error) => {
+              console.log("reauth is fault");
+            });
+          }
+        }).catch((error) => {
+          console.log("サインインに失敗しました");
+        });
+    }
   };
 
   let displayName: string | null = null;
@@ -85,6 +110,7 @@ export const UserMenu = () => {
                     <>
                       <MenuDivider />
                       <MenuItem onClick={logout}>ログアウト</MenuItem>
+                      <MenuItem color="red.400" onClick={deleteTmp}>アカウント削除</MenuItem>
                     </>
                   }
                 </MenuList>

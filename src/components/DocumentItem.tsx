@@ -93,7 +93,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
     const splitWords = command.split(/(\*.+?\*)/);
     let i = 0;
     return (
-      <Text fontSize="md">
+      <Text fontSize="md" as="samp">
         {splitWords.map((word) => {
           if (word.startsWith("*") && word.endsWith("*")) {
             return <Text key={i++} fontSize="md" as="i">{word.replaceAll("*", "")}</Text>;
@@ -163,7 +163,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                         isMulti
                         onChange={handleChangeCategory}
                         placeholder="タグを入力"
-                        defaultValue={defaultTags}
+                        defaultValue={documentTags}
                       />
                       <StackDivider />
                       <FormLabel>Command</FormLabel>

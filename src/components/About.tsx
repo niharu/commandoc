@@ -38,13 +38,6 @@ export const About = () => {
       iconDisplay: false,
     },
     {
-      command: "アイコン",
-      descriptino: "Infoアイコンにカーソルを合わせると、作成者（GitHubの表示名）が表示されます。\r\nCopyアイコンで、クリップボードにコピーができます。",
-      tags: [],
-      user: null,
-      iconDisplay: true,
-    },
-    {
       command: "タグ",
       descriptino: "コマンドを投稿するときにタグを指定できます。\r\n↓こんな感じで表示されます。",
       tags: ["Linux"],
@@ -60,14 +53,17 @@ export const About = () => {
     },
     {
       command: "コマンドの投稿",
-      descriptino: "ログインすると、「投稿」でコマンドが投稿できます。",
+      descriptino: "ログインすると、「投稿」でコマンドが投稿できます。\r\n"
+      +"投稿したコマンドは誰でも参照することができます。\r\n"
+      +"誰が投稿したのかは、管理者のみ知ることができます。\r\n"
+      +"シークレットキーやパスワード、個人情報などを含まないように注意してください。\r\n",
       tags: ["ログイン時のみ"],
       user: null,
       iconDisplay: false,
     },
     {
       command: "コマンドの編集",
-      descriptino: "自分が投稿したコマンドは、右下のInfoアイコンがEditアイコンに変わります。\r\nクリックすると編集画面が開きます。",
+      descriptino: "自分が投稿したコマンドは、右下にEditアイコンが表示されます。\r\nクリックすると編集画面が開きます。",
       tags: ["ログイン時のみ"],
       user: "niharu",
       iconDisplay: true,
