@@ -11,7 +11,7 @@ type InitialState = {
   documents: Document[],
   setDocuments: React.Dispatch<React.SetStateAction<Document[]>>,
 }
-export const FilterWordProvider: React.VFC<Props> = ({ children }) => {
+export const DocumentProvider: React.VFC<Props> = ({ children }) => {
   const [documents, setDocuments] = useState<Document[]>([]);
 
   return <DocumentContext.Provider value={{documents, setDocuments}}>{children}</DocumentContext.Provider>

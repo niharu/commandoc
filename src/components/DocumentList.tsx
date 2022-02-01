@@ -16,10 +16,14 @@ export const DocumentList = () => {
   const user = useLoginUser();
   const settings = useSettings();
 
-  const [filteredDocuments, setFilteredDocuments] = useState(documents);
+  const [filteredDocuments, setFilteredDocuments] = useState(documents?.documents);
 
   useEffect(() => {
-    let filteredDocumentTmp = documents;
+    let filteredDocumentTmp = documents?.documents;
+
+    if (filteredDocumentTmp === null || filteredDocumentTmp === undefined){
+      return;
+    }
 
     if (user !== null && settings.filterMyCommand) {
       filteredDocumentTmp = filteredDocumentTmp.filter((document: Document) => user.uid === document.createUserId);
@@ -53,10 +57,10 @@ export const DocumentList = () => {
 
   return (
     <>
-      {filteredDocuments.length !== 0 ? (
+      {filteredDocuments?.length !== 0 ? (
         <>
           <List>
-            {filteredDocuments.map((document: Document) => (
+            {filteredDocuments?.map((document: Document) => (
               <DocumentItem
                 key={document.id}
                 document={document}

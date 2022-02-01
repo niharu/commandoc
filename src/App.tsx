@@ -15,6 +15,7 @@ import { Home } from './components/Home';
 import { About } from './components/About';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ScrollToTop } from './components/ScrollTop';
+import { DocumentProvider } from './provider/DocumentProvider';
 
 function App() {
 
@@ -23,29 +24,31 @@ function App() {
       <Container p={{ base: "4", md: "6" }} maxWidth="3xl">
         <UserProvider>
           <UserSettingsProvider>
-            <TagProvider>
-              <SelectedTagProvider>
-                <FilterWordProvider>
-                  <BrowserRouter>
-                    <ScrollToTop>
-                      <Flex mb={3}>
-                        <Box>
-                          <Title />
-                        </Box>
-                        <Spacer />
-                        <UserMenu />
-                      </Flex>
-                      <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<About />} />
-                      </Routes>
-                      <Stack>
-                      </Stack>
-                    </ScrollToTop>
-                  </BrowserRouter>
-                </FilterWordProvider>
-              </SelectedTagProvider>
-            </TagProvider>
+            <DocumentProvider>
+              <TagProvider>
+                <SelectedTagProvider>
+                  <FilterWordProvider>
+                    <BrowserRouter>
+                      <ScrollToTop>
+                        <Flex mb={3}>
+                          <Box>
+                            <Title />
+                          </Box>
+                          <Spacer />
+                          <UserMenu />
+                        </Flex>
+                        <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/about" element={<About />} />
+                        </Routes>
+                        <Stack>
+                        </Stack>
+                      </ScrollToTop>
+                    </BrowserRouter>
+                  </FilterWordProvider>
+                </SelectedTagProvider>
+              </TagProvider>
+            </DocumentProvider>
           </UserSettingsProvider>
         </UserProvider>
       </Container>

@@ -15,8 +15,10 @@ import { useTags } from "../hooks/useTags";
 import { ulid } from "ulid";
 import { useLoginUser } from "../hooks/useLoginUser";
 import { AddIcon } from "@chakra-ui/icons";
+import { DocumentContext } from "../provider/DocumentProvider";
 
 export const AddDocument = () => {
+  const documentContext = useContext(DocumentContext);
   const user = useLoginUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -51,6 +53,7 @@ export const AddDocument = () => {
       await TagAPI.addTags(newTagsForUpdate);
       commandRef.current.value = "";
       descriptionRef.current.value = "";
+      documentContext?.setDocuments([newDocument, ...documentContext.documents]);
       onClose();
     }
   }
