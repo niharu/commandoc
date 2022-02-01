@@ -39,6 +39,11 @@ export const AddDocument = () => {
   };
 
   const handleClickSave = async () => {
+    if (selectedTagsForUpdate.length === 0) {
+      alert("タグを1つ以上入力してください")
+      return;
+    }
+
     if (user !== null && commandRef !== null && descriptionRef !== null && commandRef.current !== null && descriptionRef.current !== null) {
       const newDocument: Document = {
         id: ulid(),
@@ -79,7 +84,7 @@ export const AddDocument = () => {
                 options={tags}
                 isMulti
                 onChange={handleChangeCategory}
-                placeholder="タグを入力"
+                placeholder="タグを入力（1つ以上）"
               />
               <StackDivider />
               <FormLabel>Command</FormLabel>

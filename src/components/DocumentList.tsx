@@ -42,7 +42,6 @@ export const DocumentList = () => {
         keys: [
           "command",
           "description",
-          "tags"
         ]
       };
 

@@ -46,6 +46,11 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
   };
 
   const handleClickSave = async () => {
+    if (selectedTagsForUpdate.length === 0) {
+      alert("タグを1つ以上入力してください")
+      return;
+    }
+
     if (commandRef !== null && descriptionRef !== null && commandRef.current !== null && descriptionRef.current !== null) {
       await DocumentAPI.updateDocument({ id: document.id, tags: selectedTagsForUpdate.map((tag: Tag) => tag.value), command: commandRef.current.value, description: descriptionRef.current.value } as Document);
       await TagAPI.addTags(newTagsForUpdate);
@@ -117,7 +122,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
             <HStack>
               {documentTags.map((tag: Tag) => <TagUi key={tag.value} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>)}
               <Spacer />
-              {user !== null && user?.uid === document.createUserId ?
+              {user !== null && user?.uid === document.createUserId &&
                 <Tooltip label={"編集する"}>
                   <IconButton
                     size="xs"
@@ -125,14 +130,6 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                     aria-label="edit"
                     onClick={onOpen}
                     colorScheme="teal"
-                  />
-                </Tooltip>
-                :
-                <Tooltip label={"author: " + document.createUserName}>
-                  <IconButton
-                    size="xs"
-                    icon={<InfoOutlineIcon />}
-                    aria-label="edit"
                   />
                 </Tooltip>
               }
