@@ -1,4 +1,4 @@
-import { Button, Divider, Fade, HStack, PopoverArrow, Textarea, useToast } from "@chakra-ui/react";
+import { Button, chakra, Divider, Fade, HStack, PopoverArrow, Textarea, useToast } from "@chakra-ui/react";
 import { CopyIcon, EditIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { FormLabel, Stack, StackDivider, Box, Container, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Spacer, Text, Tooltip } from "@chakra-ui/react";
 import { Clip } from "./Clip";
@@ -15,6 +15,7 @@ import { useSelectedTags } from "../hooks/useSelectedTag";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure } from '@chakra-ui/react'
 import { useLoginUser } from "../hooks/useLoginUser";
 import { createDocumentRegistry } from "typescript";
+import { useClickable } from "@chakra-ui/clickable";
 
 export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => {
   const toast = useToast();
@@ -28,6 +29,11 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
   const [command, setCommand] = useState<string>(document.command);
   const [description, setDescription] = useState<string>(document.description);
   const [exists, setExists] = useState<boolean>(true);
+
+  const Clickable = (props: any) => {
+    const clickable = useClickable(props)
+    return <chakra.button display="inline-flex" {...clickable} />
+  }
 
   const defaultTags: any[] = document.tags.map((tag) => { return { label: tag, value: tag } });
 
@@ -82,7 +88,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
   }
 
   const changeTagColor = (tagName: string): string => {
-    const selectedTagStr = selectedTags.selectedTags.map((tag) => tag.value);
+    const selectedTagStr = selectedTags.selectedTags;
     if (selectedTagStr.includes(tagName)) {
       return "teal";
     }
@@ -110,87 +116,117 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
     commandRef.current.value = str.replace(/\n/g, "");
   }
 
+  const tmp = () => {
+    console.log("tmp");
+  }
+
+  const changeButtonColor = (tagName: string): any => {
+    const selectedTagStr = selectedTags.selectedTags;
+    if (selectedTagStr.includes(tagName)) {
+      return { bg: "teal.300", color: "white" };
+    }
+    // return { colorScheme: "gray",bg: "gray.200", color: "black" };
+    return { colorScheme: "gray" };
+  }
+
   return (
     <>
-      <Fade in={exists}>
-        <Box border="1px" borderColor="gray.400" borderRadius="md" mb="3" p="2" shadow="md">
-          <Stack>
-            {replaceItalics()}
-            {/* <Text fontSize="md" as="samp">{replaceItalics()}</Text> */}
-            <Divider borderColor="gray.300" />
-            <Text fontSize="md">{description}</Text>
-            <HStack>
-              {documentTags.map((tag: Tag) => <TagUi key={tag.value} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>)}
-              <Spacer />
-              {user !== null && user?.uid === document.createUserId &&
-                <Tooltip label={"編集する"}>
+      {exists &&
+        <Fade in={true}>
+          <Box border="1px" borderColor="gray.400" borderRadius="md" mb="3" p="2" shadow="md">
+            <Stack>
+              {replaceItalics()}
+              {/* <Text fontSize="md" as="samp">{replaceItalics()}</Text> */}
+              <Divider borderColor="gray.300" />
+              <Text fontSize="md">{description}</Text>
+              <HStack>
+                {/* {documentTags.map((tag: Tag) => <TagUi key={tag.value} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>)} */}
+
+                {/* {documentTags.map((tag: Tag) =>
+                  <Button key={tag.value} borderRadius="full" _hover={{opacity:0.9}} {...changeButtonColor(tag.value)} size="xs">{tag.label}</Button>
+                )
+                } */}
+
+                {documentTags.map((tag: Tag) =>
+                  <Clickable
+                    as="div"
+                    _disabled={{ opacity: 0.4, pointerEvents: "none" }} borderRadius="md" key={tag.value} onClick={tmp}>
+                    <TagUi _hover={{opacity: 0.6}} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>
+                  </Clickable>
+                )
+                }
+
+                <Spacer />
+                {user !== null && user?.uid === document.createUserId &&
+                  <Tooltip label={"編集する"}>
+                    <IconButton
+                      size="xs"
+                      icon={<EditIcon />}
+                      aria-label="edit"
+                      onClick={onOpen}
+                      colorScheme="teal"
+                    />
+                  </Tooltip>
+                }
+                <Tooltip label="copy">
                   <IconButton
+                    icon={<CopyIcon />}
+                    onClick={copy}
+                    // onClick={() =>
+                    //   toast({
+                    //     // title: 'Account created.',
+                    //     description: "コマンドをクリップボードにコピーしました",
+                    //     status: 'success',
+                    //     duration: 3000,
+                    //     // isClosable: true,
+                    //   })
+                    // }
                     size="xs"
-                    icon={<EditIcon />}
-                    aria-label="edit"
-                    onClick={onOpen}
-                    colorScheme="teal"
+                    aria-label="コピー"
                   />
                 </Tooltip>
-              }
-              <Tooltip label="copy">
-                <IconButton
-                  icon={<CopyIcon />}
-                  onClick={copy}
-                  // onClick={() =>
-                  //   toast({
-                  //     // title: 'Account created.',
-                  //     description: "コマンドをクリップボードにコピーしました",
-                  //     status: 'success',
-                  //     duration: 3000,
-                  //     // isClosable: true,
-                  //   })
-                  // }
-                  size="xs"
-                  aria-label="コピー"
-                />
-              </Tooltip>
-              <Modal size="lg" isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                  <ModalHeader>コマンドを編集</ModalHeader>
-                  <ModalCloseButton />
-                  <ModalBody>
-                    <Stack>
-                      <FormLabel size="lg">Tags</FormLabel>
-                      <CreatableSelect
-                        options={tags}
-                        isMulti
-                        onChange={handleChangeCategory}
-                        placeholder="タグを入力"
-                        defaultValue={documentTags}
-                      />
-                      <StackDivider />
-                      <FormLabel>Command</FormLabel>
-                      <Textarea ref={commandRef} onChange={removeNewLine} defaultValue={document.command} placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります" />
-                      <StackDivider />
-                      <FormLabel>Description</FormLabel>
-                      <Textarea ref={descriptionRef} defaultValue={document.description} placeholder="コマンドの説明を入力" />
-                      <StackDivider />
-                      {/* <HStack>
+                <Modal size="lg" isOpen={isOpen} onClose={onClose}>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>コマンドを編集</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      <Stack>
+                        <FormLabel size="lg">Tags</FormLabel>
+                        <CreatableSelect
+                          options={tags}
+                          isMulti
+                          onChange={handleChangeCategory}
+                          placeholder="タグを入力"
+                          defaultValue={documentTags}
+                        />
+                        <StackDivider />
+                        <FormLabel>Command</FormLabel>
+                        <Textarea ref={commandRef} onChange={removeNewLine} defaultValue={document.command} placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります" />
+                        <StackDivider />
+                        <FormLabel>Description</FormLabel>
+                        <Textarea ref={descriptionRef} defaultValue={document.description} placeholder="コマンドの説明を入力" />
+                        <StackDivider />
+                        {/* <HStack>
                         <Spacer />
                         <Text fontSize="8px" colorScheme="gray" as="i">author: {user.displayName}</Text>
                       </HStack> */}
-                      <HStack>
-                        <Spacer />
-                        <Button w="200px" colorScheme="teal" onClick={handleClickSave}>保存</Button>
-                        <Spacer />
-                        <Button w="200px" colorScheme="red" onClick={handleClickDelete}>削除</Button>
-                        <Spacer />
-                      </HStack>
-                    </Stack>
-                  </ModalBody>
-                </ModalContent>
-              </Modal>
-            </HStack>
-          </Stack>
-        </Box>
-      </Fade>
+                        <HStack>
+                          <Spacer />
+                          <Button w="200px" colorScheme="teal" onClick={handleClickSave}>保存</Button>
+                          <Spacer />
+                          <Button w="200px" colorScheme="red" onClick={handleClickDelete}>削除</Button>
+                          <Spacer />
+                        </HStack>
+                      </Stack>
+                    </ModalBody>
+                  </ModalContent>
+                </Modal>
+              </HStack>
+            </Stack>
+          </Box>
+        </Fade>
+      }
     </>
   );
 };

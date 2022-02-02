@@ -8,11 +8,11 @@ type Props = {
 };
 
 type InitialState = {
-  selectedTags: Tag[],
-  setSelectedTags: React.Dispatch<React.SetStateAction<Tag[]>>,
+  selectedTags: string[],
+  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>,
 }
 export const SelectedTagProvider: React.VFC<Props> = ({ children }) => {
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   return <SelectedTagContext.Provider value={{selectedTags, setSelectedTags}}>{children}</SelectedTagContext.Provider>
 };

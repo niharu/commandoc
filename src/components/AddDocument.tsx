@@ -70,7 +70,6 @@ export const AddDocument = () => {
 
   return (
     <>
-      {/* <Button colorScheme="teal" onClick={onOpen} leftIcon={<AddIcon />}>投稿</Button> */}
       <Button colorScheme="teal" onClick={onOpen}>投稿</Button>
       <Modal size="lg" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

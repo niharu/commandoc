@@ -7,9 +7,9 @@ import { WordFilter } from "./WordFilter"
 export const Home = () => {
   return (
     <>
-      <Stack>
-        <TagSelect />
+      <Stack spacing={5}>
         <WordFilter />
+        <TagSelect />
         <DocumentList />
         <Center>
           <Link to="/about"><Text as="u">About & 使い方</Text></Link>

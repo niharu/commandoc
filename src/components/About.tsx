@@ -14,7 +14,6 @@ import { Document } from "./Document";
 import * as DocumentAPI from "../api/DocumentAPI";
 import * as TagAPI from "../api/TagAPI";
 import { useTags } from "../hooks/useTags";
-import { useSelectedTags } from "../hooks/useSelectedTag";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure } from '@chakra-ui/react'
 import { useLoginUser } from "../hooks/useLoginUser";
 import { createDocumentRegistry } from "typescript";

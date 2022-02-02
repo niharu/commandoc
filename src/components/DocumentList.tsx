@@ -8,6 +8,7 @@ import { DocumentItem } from "./DocumentItem";
 import Fuse from 'fuse.js';
 import { useLoginUser } from "../hooks/useLoginUser";
 import { useSettings } from "../hooks/useSetings";
+import { useClickable } from "@chakra-ui/clickable";
 
 export const DocumentList = () => {
   const documents = useDocument();
@@ -21,7 +22,7 @@ export const DocumentList = () => {
   useEffect(() => {
     let filteredDocumentTmp = documents?.documents;
 
-    if (filteredDocumentTmp === null || filteredDocumentTmp === undefined){
+    if (filteredDocumentTmp === null || filteredDocumentTmp === undefined) {
       return;
     }
 
@@ -30,11 +31,11 @@ export const DocumentList = () => {
     }
 
     if (selectedTags?.selectedTags?.length > 0) {
-      const strTags: string[] = selectedTags.selectedTags.map((tag) => tag.value);
+      const strTags: string[] = selectedTags.selectedTags;
       filteredDocumentTmp = filteredDocumentTmp.filter((document: Document) => document.tags.some((tag) => strTags.includes(tag)));
     }
 
-    if (filterWord?.filterWord) {
+    if (filterWord?.filterWord && filterWord.filterWord.length >= 2) {
 
       const options = {
         threshold: 0.3,
@@ -42,6 +43,7 @@ export const DocumentList = () => {
         keys: [
           "command",
           "description",
+          "tags",
         ]
       };
 

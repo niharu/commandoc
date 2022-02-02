@@ -9,6 +9,6 @@ export const WordFilter = () => {
   };
 
   return (
-    <Input mt="1" mb="4" type="text" value={filter.filterWord} placeholder="文字列でフィルター" onChange={handleChangeSearchWord} />
+    <Input mt="1" type="text" value={filter.filterWord} placeholder="キーワードを入力..." onChange={handleChangeSearchWord} />
   );
 };
