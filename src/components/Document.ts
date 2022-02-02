@@ -4,5 +4,4 @@ export type Document = {
   tags: string[],
   description: string,
   createUserId: string,
-  createUserName: string,
 };

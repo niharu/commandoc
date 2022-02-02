@@ -85,6 +85,7 @@ export const UserMenu = () => {
       <Fade in={true}>
         <HStack>
           <>
+            <IconButton aria-label="moon" colorScheme="whiteAlpha" icon={<MoonIcon />} />
             {user && !loading ?
               <AddDocument />
               :

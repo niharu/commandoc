@@ -194,7 +194,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                       <Stack>
                         <FormLabel size="lg">Tags</FormLabel>
                         <CreatableSelect
-                          options={tags}
+                          options={tags.tags}
                           isMulti
                           onChange={handleChangeCategory}
                           placeholder="タグを入力"

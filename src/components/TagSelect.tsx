@@ -35,13 +35,13 @@ export const TagSelect = () => {
       };
 
       // あいまい検索
-      const fuse = new Fuse(tags, options);
+      const fuse = new Fuse(tags.tags, options);
       const results = fuse.search(filterWord.filterWord);
 
       const resultTags: string[] = results.map((result: any) => result.item.value);
       setNotSelectedTags(resultTags.filter((tag) => !selectedTag.selectedTags.includes(tag)));
     } else {
-      setNotSelectedTags(tags.map(tag => tag.value).filter((tag) => !selectedTag.selectedTags.includes(tag)));
+      setNotSelectedTags(tags.tags.map(tag => tag.value).filter((tag) => !selectedTag.selectedTags.includes(tag)));
     }
   }, [filterWord, selectedTag]);
 
@@ -70,7 +70,7 @@ export const TagSelect = () => {
   const removeAllFromSelected = () => {
     console.log("removeAllFromSelected ");
     selectedTag.setSelectedTags([]);
-    setNotSelectedTags(tags.map(tag => tag.value).filter((tag) => !selectedTag.selectedTags.includes(tag)));
+    setNotSelectedTags(tags.tags.map(tag => tag.value).filter((tag) => !selectedTag.selectedTags.includes(tag)));
   }
 
   return (
@@ -81,7 +81,7 @@ export const TagSelect = () => {
             <Clickable
               as="div"
               _disabled={{ opacity: 0.4, pointerEvents: "none" }} borderRadius="md" >
-              <IconContext.Provider value={{ color: '#555' }}>
+              <IconContext.Provider value={{ color: '#888' }}>
                 <AiFillTags size={20} />
               </IconContext.Provider>
             </Clickable>

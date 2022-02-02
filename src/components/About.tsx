@@ -30,8 +30,8 @@ export const About = () => {
       iconDisplay: false,
     },
     {
-      command: "ここにコマンドが表示されます。",
-      descriptino: "ここに説明が表示されます。",
+      command: "コマンドと",
+      descriptino: "説明が表示されます。",
       tags: [],
       user: null,
       iconDisplay: false,

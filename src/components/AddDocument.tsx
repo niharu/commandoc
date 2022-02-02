@@ -50,8 +50,7 @@ export const AddDocument = () => {
         tags: selectedTagsForUpdate.map((tag: Tag) => tag.value),
         command: commandRef.current.value,
         description: descriptionRef.current.value,
-        createUserId: user.uid,
-        createUserName: user.displayName ? user.displayName : ""
+        createUserId: user.uid
       };
 
       await DocumentAPI.addDocument(newDocument);
@@ -59,6 +58,7 @@ export const AddDocument = () => {
       commandRef.current.value = "";
       descriptionRef.current.value = "";
       documentContext?.setDocuments([newDocument, ...documentContext.documents]);
+      tags.setTags([...tags?.tags, ...newTagsForUpdate]);
       onClose();
     }
   }
@@ -80,7 +80,7 @@ export const AddDocument = () => {
             <Stack>
               <FormLabel size="lg">Tags</FormLabel>
               <CreatableSelect
-                options={tags}
+                options={tags.tags}
                 isMulti
                 onChange={handleChangeCategory}
                 placeholder="タグを入力（1つ以上）"
