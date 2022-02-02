@@ -85,37 +85,33 @@ export const UserMenu = () => {
       <Fade in={true}>
         <HStack>
           <>
-            <IconButton aria-label="moon" colorScheme="whiteAlpha" icon={<MoonIcon />} />
+            {colorMode === 'light' ?
+              <IconButton aria-label="moon" bg="white"
+                icon={<MoonIcon />} onClick={toggleColorMode} />
+              :
+              <IconButton aria-label="sun" bg="blackAlpha"
+                icon={<SunIcon />} onClick={toggleColorMode} />
+            }
             {user && !loading ?
               <AddDocument />
               :
               <Login />
             }
             <Box>
-              <Menu closeOnSelect={false}>
-                <MenuButton as={IconButton} icon={<HamburgerIcon />}></MenuButton>
-                <MenuList>
-                  {user &&
-                    <>
-                      <MenuOptionGroup title="設定" type='checkbox' onChange={handleChangeSettings}>
-                        <MenuItemOption value="filterMyCommand" >自分が作成したコマンドのみ表示</MenuItemOption>
-                      </MenuOptionGroup>
-                      <MenuDivider />
-                    </>
-                  }
-                  <MenuOptionGroup defaultValue={colorMode} title="カラーモード" type='radio' onChange={handleChangeColorMode}>
-                    <MenuItemOption value="light" >ライト</MenuItemOption>
-                    <MenuItemOption value="dark" >ダーク</MenuItemOption>
-                  </MenuOptionGroup>
-                  {user &&
-                    <>
-                      <MenuDivider />
-                      <MenuItem onClick={logout}>ログアウト</MenuItem>
-                      <MenuItem color="red.400" onClick={deleteTmp}>アカウント削除</MenuItem>
-                    </>
-                  }
-                </MenuList>
-              </Menu>
+              {user &&
+                <Menu closeOnSelect={false}>
+                  <MenuButton as={IconButton} icon={<HamburgerIcon />}></MenuButton>
+                  <MenuList>
+                    <MenuOptionGroup type='checkbox' onChange={handleChangeSettings}>
+                      <MenuItemOption value="filterMyCommand" >自分が作成したコマンドのみ表示</MenuItemOption>
+                    </MenuOptionGroup>
+                    <MenuDivider />
+                    <MenuDivider />
+                    <MenuItem onClick={logout}>ログアウト</MenuItem>
+                    <MenuItem color="red.400" onClick={deleteTmp}>アカウント削除</MenuItem>
+                  </MenuList>
+                </Menu>
+              }
             </Box>
           </>
         </HStack>

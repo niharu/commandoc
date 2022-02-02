@@ -1,4 +1,4 @@
-import { chakra, Box, HStack, Text, Stack, Fade, TagCloseButton } from "@chakra-ui/react";
+import { chakra, Box, HStack, Text, Stack, Fade, TagCloseButton, Spacer } from "@chakra-ui/react";
 import { GroupBase, OptionBase, Select } from "chakra-react-select";
 import { useEffect, useState } from "react";
 import { useFilterWord } from "../hooks/useFilterWord";
@@ -9,7 +9,7 @@ import Fuse from 'fuse.js';
 import { Tag } from "./Tag";
 import { Tag as TagUi } from "@chakra-ui/react";
 import { useClickable } from "@chakra-ui/clickable";
-import { AiFillTags, AiOutlineTags } from "react-icons/ai";
+import { AiFillFilter, AiFillTags, AiOutlineTags } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
 export const TagSelect = () => {
@@ -81,8 +81,11 @@ export const TagSelect = () => {
             <Clickable
               as="div"
               _disabled={{ opacity: 0.4, pointerEvents: "none" }} borderRadius="md" >
-              <IconContext.Provider value={{ color: '#888' }}>
+              {/* <IconContext.Provider value={{ color: '#888' }}>
                 <AiFillTags size={20} />
+              </IconContext.Provider> */}
+              <IconContext.Provider value={{ color: '#888' }}>
+                <AiOutlineTags size={20} />
               </IconContext.Provider>
             </Clickable>
             :
@@ -109,6 +112,10 @@ export const TagSelect = () => {
               <TagUi _hover={{ opacity: 0.6 }} colorScheme="gray" size="sm" onClick={addToSelected}>{tag}</TagUi>
             </Clickable>
           )}
+          <Spacer />
+          <IconContext.Provider value={{ color: '#077' }}>
+            <AiFillFilter size={20} />
+          </IconContext.Provider>
         </HStack>
       </Stack>
     </Box>
