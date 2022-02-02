@@ -41,7 +41,7 @@ export const TagSelect = () => {
       const resultTags: string[] = results.map((result: any) => result.item.value);
       setNotSelectedTags(resultTags.filter((tag) => !selectedTag.selectedTags.includes(tag)));
     } else {
-      setNotSelectedTags([]);
+      setNotSelectedTags(tags.map(tag => tag.value).filter((tag) => !selectedTag.selectedTags.includes(tag)));
     }
   }, [filterWord, selectedTag]);
 
@@ -67,13 +67,34 @@ export const TagSelect = () => {
     setNotSelectedTags([...notSelectedTags, e.target.textContent]);
   }
 
+  const removeAllFromSelected = () => {
+    console.log("removeAllFromSelected ");
+    selectedTag.setSelectedTags([]);
+    setNotSelectedTags(tags.map(tag => tag.value).filter((tag) => !selectedTag.selectedTags.includes(tag)));
+  }
+
   return (
     <Box>
       <Stack>
         <HStack>
-          <IconContext.Provider value={{ color: '#077' }}>
-            <AiFillTags size={20} />
-          </IconContext.Provider>
+          {selectedTag.selectedTags.length === 0 ?
+            <Clickable
+              as="div"
+              _disabled={{ opacity: 0.4, pointerEvents: "none" }} borderRadius="md" >
+              <IconContext.Provider value={{ color: '#555' }}>
+                <AiFillTags size={20} />
+              </IconContext.Provider>
+            </Clickable>
+            :
+            <Clickable
+              as="div"
+              onClick={removeAllFromSelected}
+              _disabled={{ opacity: 0.4, pointerEvents: "none" }} borderRadius="md" >
+              <IconContext.Provider value={{ color: '#077' }}>
+                <AiFillTags size={20} />
+              </IconContext.Provider>
+            </Clickable>
+          }
           {selectedTag.selectedTags.map((tag: string) =>
             <Clickable
               as="div"
