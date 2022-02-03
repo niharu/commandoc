@@ -4,7 +4,7 @@ import { FormLabel, Stack, StackDivider, Box, Container, Flex, IconButton, Popov
 import { Clip } from "./Clip";
 import { GroupBase, OptionBase, CreatableSelect } from "chakra-react-select";
 import { Tag } from "./Tag";
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Tag as TagUi } from "@chakra-ui/react";
 import { TagContext } from "../provider/TagProvider";
 import { Document } from "./Document";
@@ -19,7 +19,7 @@ import { useClickable } from "@chakra-ui/clickable";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { IconContext } from "react-icons";
 
-export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => {
+export const DocumentItem: React.FC<{ document: Document }> =  ({ document }) => {
   const toast = useToast();
   const user = useLoginUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
