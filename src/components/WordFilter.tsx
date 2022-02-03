@@ -9,6 +9,12 @@ export const WordFilter = () => {
   };
 
   return (
-    <Input mt="1" type="text" value={filter.filterWord} placeholder="キーワードを入力..." onChange={handleChangeSearchWord} />
+    <Input
+      mt="1"
+      type="text"
+      value={filter.filterWord}
+      placeholder="キーワードを入力..."
+      onChange={handleChangeSearchWord}
+    />
   );
 };

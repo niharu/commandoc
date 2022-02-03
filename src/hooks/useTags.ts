@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext } from "react";
 import { TagContext } from "../provider/TagProvider";
 
 export const useTags = () => {

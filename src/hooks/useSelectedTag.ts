@@ -7,4 +7,4 @@ export const useSelectedTags = () => {
   if (tag === null) throw new Error("SelectedTagProvider でラップしてください");
 
   return tag;
-}
+};

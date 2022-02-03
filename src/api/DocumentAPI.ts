@@ -7,7 +7,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { Document } from "../components/Document";
-
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { firebaseConfig } from "../config/config";

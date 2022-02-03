@@ -7,13 +7,15 @@ export const useAuthState = () => {
   const [user, setUser] = useState<firebase.User | null>(null);
 
   useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      setIsSignedIn(!!user);
-      setLoading(false);
-      setUser(user);
-    });
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        setIsSignedIn(!!user);
+        setLoading(false);
+        setUser(user);
+      });
     return () => unregisterAuthObserver();
   }, []);
 
-  return {loading, isSignedIn, user};
-}
+  return { loading, isSignedIn, user };
+};

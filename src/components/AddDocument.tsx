@@ -3,7 +3,6 @@ import {
   FormLabel,
   Stack,
   StackDivider,
-  Text,
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -17,20 +16,16 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { useContext, useRef, useState } from "react";
-import React from "react";
 import { MultiValue } from "chakra-react-select";
-import { GroupBase, OptionBase, CreatableSelect } from "chakra-react-select";
+import { CreatableSelect } from "chakra-react-select";
 import { Tag } from "./Tag";
 import { Document } from "./Document";
-import { TagContext } from "../provider/TagProvider";
 import * as DocumentAPI from "../api/DocumentAPI";
 import * as TagAPI from "../api/TagAPI";
 import { useTags } from "../hooks/useTags";
 import { ulid } from "ulid";
 import { useLoginUser } from "../hooks/useLoginUser";
-import { AddIcon } from "@chakra-ui/icons";
 import { DocumentContext } from "../provider/DocumentProvider";
-import { createFilter } from "react-select";
 
 export const AddDocument = () => {
   const documentContext = useContext(DocumentContext);

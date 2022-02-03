@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useState } from "react";
 import * as TagAPI from "../api/TagAPI";
 import { Tag } from "../components/Tag";
 
@@ -10,9 +10,9 @@ export const useTag = () => {
     TagAPI.searchTags().then((resultTags: any) => {
       setTags([...resultTags]);
     });
-  },[]);
+  }, []);
 
-  const addTags = async (newTags: Tag[])  => {
+  const addTags = async (newTags: Tag[]) => {
     await TagAPI.addTags(newTags);
     setTags([...tags, ...newTags]);
   };
@@ -26,6 +26,6 @@ export const useTag = () => {
     filterTags,
     searchTags,
     addTags,
-    handleChangeTags
+    handleChangeTags,
   };
 };

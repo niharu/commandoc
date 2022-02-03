@@ -4,33 +4,26 @@ import {
   Divider,
   Fade,
   HStack,
-  PopoverArrow,
   Textarea,
   useToast,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import { CopyIcon, EditIcon, InfoOutlineIcon } from "@chakra-ui/icons";
+import { CopyIcon, EditIcon } from "@chakra-ui/icons";
 import {
   FormLabel,
   Stack,
   StackDivider,
   Box,
-  Container,
-  Flex,
   IconButton,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Spacer,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import { GroupBase, OptionBase, CreatableSelect } from "chakra-react-select";
+import { CreatableSelect } from "chakra-react-select";
 import { Tag } from "./Tag";
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Tag as TagUi } from "@chakra-ui/react";
-import { TagContext } from "../provider/TagProvider";
 import { Document } from "./Document";
 import * as DocumentAPI from "../api/DocumentAPI";
 import * as TagAPI from "../api/TagAPI";
@@ -46,10 +39,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useLoginUser } from "../hooks/useLoginUser";
-import { createDocumentRegistry } from "typescript";
 import { useClickable } from "@chakra-ui/clickable";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { IconContext } from "react-icons";
 
 export const DocumentItem: React.FC<{ document: Document }> = ({
   document,
@@ -177,14 +167,6 @@ export const DocumentItem: React.FC<{ document: Document }> = ({
   const removeNewLine = (e: any) => {
     const str: string = commandRef.current.value;
     commandRef.current.value = str.replace(/\n/g, "");
-  };
-
-  const changeButtonColor = (tagName: string): any => {
-    const selectedTagStr = selectedTags.selectedTags;
-    if (selectedTagStr.includes(tagName)) {
-      return { bg: "teal.300", color: "white" };
-    }
-    return { colorScheme: "gray" };
   };
 
   return (

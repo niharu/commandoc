@@ -1,8 +1,7 @@
+import firebase from "firebase/compat/app";
 import { collection, query, addDoc } from "firebase/firestore";
 import { getFirestore, getDocs } from "firebase/firestore";
 import { Tag } from "../components/Tag";
-
-import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { firebaseConfig } from "../config/config";
 
