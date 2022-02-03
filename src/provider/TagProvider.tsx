@@ -17,7 +17,7 @@ export const TagProvider: React.VFC<Props> = ({ children }) => {
 
   const searchTags = useCallback(() => {
     TagAPI.searchTags().then((resultTags: any) => {
-      setTags([...resultTags]);
+      setTags(Array.from(new Set([...resultTags])));
     });
   }, []);
 

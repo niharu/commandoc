@@ -41,13 +41,10 @@ export const DocumentList = () => {
         threshold: 0.3,
         useExtendedSearch: true,
         keys: [
-          "command",
-          "description",
-          "tags",
+          "stringForSearch"
         ]
       };
 
-      // あいまい検索
       const fuse = new Fuse(filteredDocumentTmp, options);
       const results = fuse.search(filterWord.filterWord);
 

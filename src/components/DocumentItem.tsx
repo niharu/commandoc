@@ -1,4 +1,4 @@
-import { Button, chakra, Divider, Fade, HStack, PopoverArrow, Textarea, useToast } from "@chakra-ui/react";
+import { Button, chakra, Divider, Fade, HStack, PopoverArrow, Textarea, useToast, Wrap, WrapItem } from "@chakra-ui/react";
 import { CopyIcon, EditIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import { FormLabel, Stack, StackDivider, Box, Container, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Spacer, Text, Tooltip } from "@chakra-ui/react";
 import { Clip } from "./Clip";
@@ -16,6 +16,8 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseBu
 import { useLoginUser } from "../hooks/useLoginUser";
 import { createDocumentRegistry } from "typescript";
 import { useClickable } from "@chakra-ui/clickable";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { IconContext } from "react-icons";
 
 export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => {
   const toast = useToast();
@@ -116,16 +118,11 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
     commandRef.current.value = str.replace(/\n/g, "");
   }
 
-  const tmp = () => {
-    console.log("tmp");
-  }
-
   const changeButtonColor = (tagName: string): any => {
     const selectedTagStr = selectedTags.selectedTags;
     if (selectedTagStr.includes(tagName)) {
       return { bg: "teal.300", color: "white" };
     }
-    // return { colorScheme: "gray",bg: "gray.200", color: "black" };
     return { colorScheme: "gray" };
   }
 
@@ -135,27 +132,39 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
         <Fade in={true}>
           <Box border="1px" borderColor="gray.400" borderRadius="md" mb="3" p="2" shadow="md">
             <Stack>
-              {replaceItalics()}
-              {/* <Text fontSize="md" as="samp">{replaceItalics()}</Text> */}
-              <Divider borderColor="gray.300" />
-              <Text fontSize="md">{description}</Text>
               <HStack>
-                {/* {documentTags.map((tag: Tag) => <TagUi key={tag.value} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>)} */}
-
-                {/* {documentTags.map((tag: Tag) =>
-                  <Button key={tag.value} borderRadius="full" _hover={{opacity:0.9}} {...changeButtonColor(tag.value)} size="xs">{tag.label}</Button>
-                )
-                } */}
-
-                {documentTags.map((tag: Tag) =>
-                  <Clickable
-                    as="div"
-                    _disabled={{ opacity: 0.4, pointerEvents: "none" }} borderRadius="md" key={tag.value} onClick={tmp}>
-                    <TagUi _hover={{opacity: 0.6}} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>
-                  </Clickable>
-                )
-                }
-
+                <Wrap>
+                  {replaceItalics()}
+                </Wrap>
+                <Spacer />
+                <Tooltip label="copy">
+                  <IconButton
+                    icon={<CopyIcon />}
+                    onClick={copy}
+                    size="xs"
+                    aria-label="コピー"
+                  />
+                </Tooltip>
+              </HStack>
+              <Divider borderColor="gray.300" />
+              <HStack>
+                <Wrap>
+                  <Text fontSize="md">{description}</Text>
+                </Wrap>
+              </HStack>
+              <HStack>
+                <Wrap>
+                  {documentTags.map((tag: Tag) =>
+                    <WrapItem key={tag.value}>
+                      <Clickable
+                        as="div"
+                        _disabled={{ opacity: 0.4, pointerEvents: "none" }} borderRadius="md" key={tag.value}>
+                        <TagUi _hover={{ opacity: 0.6 }} colorScheme={changeTagColor(tag.value)} size="sm">{tag.label}</TagUi>
+                      </Clickable>
+                    </WrapItem>
+                  )
+                  }
+                </Wrap>
                 <Spacer />
                 {user !== null && user?.uid === document.createUserId &&
                   <Tooltip label={"編集する"}>
@@ -168,23 +177,6 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                     />
                   </Tooltip>
                 }
-                <Tooltip label="copy">
-                  <IconButton
-                    icon={<CopyIcon />}
-                    onClick={copy}
-                    // onClick={() =>
-                    //   toast({
-                    //     // title: 'Account created.',
-                    //     description: "コマンドをクリップボードにコピーしました",
-                    //     status: 'success',
-                    //     duration: 3000,
-                    //     // isClosable: true,
-                    //   })
-                    // }
-                    size="xs"
-                    aria-label="コピー"
-                  />
-                </Tooltip>
                 <Modal size="lg" isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>
@@ -207,10 +199,6 @@ export const DocumentItem: React.FC<{ document: Document }> = ({ document }) => 
                         <FormLabel>Description</FormLabel>
                         <Textarea ref={descriptionRef} defaultValue={document.description} placeholder="コマンドの説明を入力" />
                         <StackDivider />
-                        {/* <HStack>
-                        <Spacer />
-                        <Text fontSize="8px" colorScheme="gray" as="i">author: {user.displayName}</Text>
-                      </HStack> */}
                         <HStack>
                           <Spacer />
                           <Button w="200px" colorScheme="teal" onClick={handleClickSave}>保存</Button>

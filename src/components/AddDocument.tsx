@@ -16,6 +16,7 @@ import { ulid } from "ulid";
 import { useLoginUser } from "../hooks/useLoginUser";
 import { AddIcon } from "@chakra-ui/icons";
 import { DocumentContext } from "../provider/DocumentProvider";
+import {createFilter } from 'react-select';
 
 export const AddDocument = () => {
   const documentContext = useContext(DocumentContext);
@@ -34,6 +35,7 @@ export const AddDocument = () => {
   const [selectedTagsForUpdate, setSelectedTagsForUpdate] = useState<Tag[]>([]);
 
   const handleChangeCategory = (selectedTags: MultiValue<Tag>) => {
+    console.log("handleChangeCategory :", selectedTags);
     setSelectedTagsForUpdate(selectedTags.map((tag: any) => { return { value: tag.value, label: tag.label }; }));
     setNewTagsForUpdate(selectedTags.filter((tag: any) => tag.__isNew__).map((tag: any) => { return { value: tag.value, label: tag.label }; }));
   };
@@ -50,7 +52,9 @@ export const AddDocument = () => {
         tags: selectedTagsForUpdate.map((tag: Tag) => tag.value),
         command: commandRef.current.value,
         description: descriptionRef.current.value,
-        createUserId: user.uid
+        stringForSearch: [...selectedTagsForUpdate.map((tag: Tag) => tag.value), commandRef.current.value, descriptionRef.current.value].join(" "),
+        createUserId: user.uid,
+        addStarUsers: [],
       };
 
       await DocumentAPI.addDocument(newDocument);
@@ -84,6 +88,7 @@ export const AddDocument = () => {
                 isMulti
                 onChange={handleChangeCategory}
                 placeholder="タグを入力（1つ以上）"
+                // filterOption={createFilter({ignoreCase : true, trim: true})}
               />
               <StackDivider />
               <FormLabel>Command</FormLabel>
