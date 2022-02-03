@@ -1,9 +1,23 @@
-import { Button, FormLabel, Stack, StackDivider, Text, Textarea, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  FormLabel,
+  Stack,
+  StackDivider,
+  Text,
+  Textarea,
+  useDisclosure,
+} from "@chakra-ui/react";
 
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from '@chakra-ui/react'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 import { useContext, useRef, useState } from "react";
-
-import React from 'react';
+import React from "react";
 import { MultiValue } from "chakra-react-select";
 import { GroupBase, OptionBase, CreatableSelect } from "chakra-react-select";
 import { Tag } from "./Tag";
@@ -16,7 +30,7 @@ import { ulid } from "ulid";
 import { useLoginUser } from "../hooks/useLoginUser";
 import { AddIcon } from "@chakra-ui/icons";
 import { DocumentContext } from "../provider/DocumentProvider";
-import {createFilter } from 'react-select';
+import { createFilter } from "react-select";
 
 export const AddDocument = () => {
   const documentContext = useContext(DocumentContext);
@@ -36,23 +50,43 @@ export const AddDocument = () => {
 
   const handleChangeCategory = (selectedTags: MultiValue<Tag>) => {
     console.log("handleChangeCategory :", selectedTags);
-    setSelectedTagsForUpdate(selectedTags.map((tag: any) => { return { value: tag.value, label: tag.label }; }));
-    setNewTagsForUpdate(selectedTags.filter((tag: any) => tag.__isNew__).map((tag: any) => { return { value: tag.value, label: tag.label }; }));
+    setSelectedTagsForUpdate(
+      selectedTags.map((tag: any) => {
+        return { value: tag.value, label: tag.label };
+      })
+    );
+    setNewTagsForUpdate(
+      selectedTags
+        .filter((tag: any) => tag.__isNew__)
+        .map((tag: any) => {
+          return { value: tag.value, label: tag.label };
+        })
+    );
   };
 
   const handleClickSave = async () => {
     if (selectedTagsForUpdate.length === 0) {
-      alert("タグを1つ以上入力してください")
+      alert("タグを1つ以上入力してください");
       return;
     }
 
-    if (user !== null && commandRef !== null && descriptionRef !== null && commandRef.current !== null && descriptionRef.current !== null) {
+    if (
+      user !== null &&
+      commandRef !== null &&
+      descriptionRef !== null &&
+      commandRef.current !== null &&
+      descriptionRef.current !== null
+    ) {
       const newDocument: Document = {
         id: ulid(),
         tags: selectedTagsForUpdate.map((tag: Tag) => tag.value),
         command: commandRef.current.value,
         description: descriptionRef.current.value,
-        stringForSearch: [...selectedTagsForUpdate.map((tag: Tag) => tag.value), commandRef.current.value, descriptionRef.current.value].join(" "),
+        stringForSearch: [
+          ...selectedTagsForUpdate.map((tag: Tag) => tag.value),
+          commandRef.current.value,
+          descriptionRef.current.value,
+        ].join(" "),
         createUserId: user.uid,
         addStarUsers: [],
       };
@@ -61,20 +95,25 @@ export const AddDocument = () => {
       await TagAPI.addTags(newTagsForUpdate);
       commandRef.current.value = "";
       descriptionRef.current.value = "";
-      documentContext?.setDocuments([newDocument, ...documentContext.documents]);
+      documentContext?.setDocuments([
+        newDocument,
+        ...documentContext.documents,
+      ]);
       tags.setTags([...tags?.tags, ...newTagsForUpdate]);
       onClose();
     }
-  }
+  };
 
   const removeNewLine = (e: any) => {
     const str: string = commandRef.current.value;
     commandRef.current.value = str.replace(/\n/g, "");
-  }
+  };
 
   return (
     <>
-      <Button colorScheme="teal" onClick={onOpen}>投稿</Button>
+      <Button colorScheme="teal" onClick={onOpen}>
+        投稿
+      </Button>
       <Modal size="lg" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -99,9 +138,14 @@ export const AddDocument = () => {
               />
               <StackDivider />
               <FormLabel>Description</FormLabel>
-              <Textarea ref={descriptionRef} placeholder="コマンドの説明を入力" />
+              <Textarea
+                ref={descriptionRef}
+                placeholder="コマンドの説明を入力"
+              />
               <StackDivider />
-              <Button colorScheme="teal" onClick={handleClickSave}>投稿する</Button>
+              <Button colorScheme="teal" onClick={handleClickSave}>
+                投稿する
+              </Button>
             </Stack>
           </ModalBody>
         </ModalContent>

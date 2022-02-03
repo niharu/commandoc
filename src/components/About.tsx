@@ -1,22 +1,9 @@
-import { Center, Container, Text, Heading, Stack, Divider, Box, List, Link as ChakraLink } from "@chakra-ui/react";
-import { Title } from "./Title";
+import { Center, Text, Heading, Stack, Divider, Box, List, Link as ChakraLink } from "@chakra-ui/react";
 
-import { Button, Fade, HStack, PopoverArrow, Textarea, useToast } from "@chakra-ui/react";
+import { HStack} from "@chakra-ui/react";
 import { CopyIcon, EditIcon, InfoOutlineIcon } from "@chakra-ui/icons";
-import { FormLabel, StackDivider, Flex, IconButton, Popover, PopoverContent, PopoverTrigger, Spacer, Tooltip } from "@chakra-ui/react";
-import { Clip } from "./Clip";
-import { GroupBase, OptionBase, CreatableSelect } from "chakra-react-select";
-import { Tag } from "./Tag";
-import { useContext, useRef, useState } from "react";
+import { IconButton, Spacer, Tooltip } from "@chakra-ui/react";
 import { Tag as TagUi } from "@chakra-ui/react";
-import { TagContext } from "../provider/TagProvider";
-import { Document } from "./Document";
-import * as DocumentAPI from "../api/DocumentAPI";
-import * as TagAPI from "../api/TagAPI";
-import { useTags } from "../hooks/useTags";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, useDisclosure } from '@chakra-ui/react'
-import { useLoginUser } from "../hooks/useLoginUser";
-import { createDocumentRegistry } from "typescript";
 import { Link } from "react-router-dom";
 import { AiFillGithub ,AiOutlineTwitter} from "react-icons/ai";
 
