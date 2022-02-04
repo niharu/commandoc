@@ -1,45 +1,30 @@
 import {
-  Button,
   chakra,
   Divider,
   Fade,
   HStack,
-  Textarea,
   useToast,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
 import { CopyIcon, EditIcon } from "@chakra-ui/icons";
 import {
-  FormLabel,
   Stack,
-  StackDivider,
   Box,
   IconButton,
   Spacer,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import { CreatableSelect } from "chakra-react-select";
 import { Tag } from "./Tag";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Tag as TagUi } from "@chakra-ui/react";
 import { Document } from "./Document";
-import * as DocumentAPI from "../api/DocumentAPI";
-import * as TagAPI from "../api/TagAPI";
-import { useTags } from "../hooks/useTags";
 import { useSelectedTags } from "../hooks/useSelectedTag";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { useLoginUser } from "../hooks/useLoginUser";
 import { useClickable } from "@chakra-ui/clickable";
+import { CommandEditModal } from "./CommandEditModal";
 
 export const DocumentItem: React.FC<{ document: Document }> = ({
   document,
@@ -47,19 +32,11 @@ export const DocumentItem: React.FC<{ document: Document }> = ({
   const toast = useToast();
   const user = useLoginUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const tags = useTags();
   const selectedTags = useSelectedTags();
 
-  const commandRef = useRef<any>(null);
-  const descriptionRef = useRef<any>(null);
   const [command, setCommand] = useState<string>(document.command);
   const [description, setDescription] = useState<string>(document.description);
   const [exists, setExists] = useState<boolean>(true);
-
-  const Clickable = (props: any) => {
-    const clickable = useClickable(props);
-    return <chakra.button display="inline-flex" {...clickable} />;
-  };
 
   const defaultTags: any[] = document.tags.map((tag) => {
     return { label: tag, value: tag };
@@ -68,61 +45,9 @@ export const DocumentItem: React.FC<{ document: Document }> = ({
   // Documentに紐づくタグ
   const [documentTags, setDocumentTags] = useState<Tag[]>(defaultTags);
 
-  // 更新用。新しく登録するタグ
-  const [newTagsForUpdate, setNewTagsForUpdate] = useState<Tag[]>([]);
-
-  // 更新用。ドキュメントに紐づくタグ
-  const [selectedTagsForUpdate, setSelectedTagsForUpdate] =
-    useState<Tag[]>(defaultTags);
-
-  const handleChangeCategory = (selectedTags: any) => {
-    setSelectedTagsForUpdate(
-      selectedTags.map((tag: any) => {
-        return { value: tag.value, label: tag.label };
-      })
-    );
-    setNewTagsForUpdate(
-      selectedTags
-        .filter((tag: any) => tag.__isNew__)
-        .map((tag: any) => {
-          return { value: tag.value, label: tag.label };
-        })
-    );
-  };
-
-  const handleClickSave = async () => {
-    if (selectedTagsForUpdate.length === 0) {
-      alert("タグを1つ以上入力してください");
-      return;
-    }
-
-    if (
-      commandRef !== null &&
-      descriptionRef !== null &&
-      commandRef.current !== null &&
-      descriptionRef.current !== null
-    ) {
-      await DocumentAPI.updateDocument({
-        id: document.id,
-        tags: selectedTagsForUpdate.map((tag: Tag) => tag.value),
-        command: commandRef.current.value,
-        description: descriptionRef.current.value,
-      } as Document);
-      await TagAPI.addTags(newTagsForUpdate);
-      setCommand(commandRef.current.value);
-      setDescription(descriptionRef.current.value);
-      setDocumentTags(selectedTagsForUpdate);
-      onClose();
-    }
-  };
-
-  const deleteClip = async (id: string) => {
-    await DocumentAPI.deleteDocument(id);
-  };
-
-  const handleClickDelete = () => {
-    setExists(false);
-    deleteClip(document.id);
+  const Clickable = (props: any) => {
+    const clickable = useClickable(props);
+    return <chakra.button display="inline-flex" {...clickable} />;
   };
 
   const copy = () => {
@@ -162,11 +87,6 @@ export const DocumentItem: React.FC<{ document: Document }> = ({
         })}
       </Text>
     );
-  };
-
-  const removeNewLine = (e: any) => {
-    const str: string = commandRef.current.value;
-    commandRef.current.value = str.replace(/\n/g, "");
   };
 
   return (
@@ -233,63 +153,18 @@ export const DocumentItem: React.FC<{ document: Document }> = ({
                     />
                   </Tooltip>
                 )}
-                <Modal size="lg" isOpen={isOpen} onClose={onClose}>
-                  <ModalOverlay />
-                  <ModalContent>
-                    <ModalHeader>コマンドを編集</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                      <Stack>
-                        <FormLabel size="lg">Tags</FormLabel>
-                        <CreatableSelect
-                          options={tags.tags}
-                          isMulti
-                          onChange={handleChangeCategory}
-                          placeholder="タグを入力"
-                          defaultValue={documentTags}
-                        />
-                        <StackDivider />
-                        <FormLabel>Command</FormLabel>
-                        <Textarea
-                          ref={commandRef}
-                          onChange={removeNewLine}
-                          defaultValue={document.command}
-                          placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります"
-                        />
-                        <StackDivider />
-                        <FormLabel>Description</FormLabel>
-                        <Textarea
-                          ref={descriptionRef}
-                          defaultValue={document.description}
-                          placeholder="コマンドの説明を入力"
-                        />
-                        <StackDivider />
-                        <HStack>
-                          <Spacer />
-                          <Button
-                            w="200px"
-                            colorScheme="teal"
-                            onClick={handleClickSave}
-                          >
-                            保存
-                          </Button>
-                          <Spacer />
-                          <Button
-                            w="200px"
-                            colorScheme="red"
-                            onClick={handleClickDelete}
-                          >
-                            削除
-                          </Button>
-                          <Spacer />
-                        </HStack>
-                      </Stack>
-                    </ModalBody>
-                  </ModalContent>
-                </Modal>
               </HStack>
             </Stack>
           </Box>
+          <CommandEditModal
+            isOpen={isOpen}
+            document={document}
+            onClose={onClose}
+            setCommand={setCommand}
+            setDescription={setDescription}
+            setExists={setExists}
+            setDocumentTags={setDocumentTags}
+          />
         </Fade>
       )}
     </>
