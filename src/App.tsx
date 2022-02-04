@@ -1,24 +1,11 @@
-import {
-  Box,
-  Center,
-  Container,
-  Divider,
-  Flex,
-  Spacer,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
-import { DocumentList } from "./components/DocumentList";
-import { TagSelect } from "./components/TagSelect";
+import { Box, Container, Flex, Spacer, Stack } from "@chakra-ui/react";
 import { Title } from "./components/Title";
 import { UserMenu } from "./components/UserMenu";
-import { WordFilter } from "./components/WordFilter";
 import { SelectedTagProvider } from "./provider/SelectedTagProvider";
 import { TagProvider } from "./provider/TagProvider";
 import { UserProvider } from "./provider/UserProvider";
 import { FilterWordProvider } from "./provider/FilterWordProvider";
 import { UserSettingsProvider } from "./provider/UserSettingsProvider";
-import { Link } from "react-router-dom";
 import { Home } from "./components/Home";
 import { About } from "./components/About";
 import { BrowserRouter, Route, Routes } from "react-router-dom";

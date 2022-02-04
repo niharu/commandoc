@@ -44,7 +44,6 @@ export const AddDocument = () => {
   const [selectedTagsForUpdate, setSelectedTagsForUpdate] = useState<Tag[]>([]);
 
   const handleChangeCategory = (selectedTags: MultiValue<Tag>) => {
-    console.log("handleChangeCategory :", selectedTags);
     setSelectedTagsForUpdate(
       selectedTags.map((tag: any) => {
         return { value: tag.value, label: tag.label };

@@ -1,11 +1,5 @@
 import { collection, setDoc, query, where } from "firebase/firestore";
-import {
-  getFirestore,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { getFirestore, getDocs, doc, updateDoc } from "firebase/firestore";
 import { Document } from "../components/Document";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
@@ -46,8 +40,4 @@ export const addDocument = async (document: Document) => {
 export const updateDocument = async (document: Document) => {
   const updateRef = doc(db, "documents", document.id);
   await updateDoc(updateRef, document);
-};
-
-export const deleteDocument = async (id: string) => {
-  await deleteDoc(doc(db, "documents", id));
 };

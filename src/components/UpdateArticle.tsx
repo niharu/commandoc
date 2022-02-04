@@ -15,6 +15,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { deleteArticle } from "../api/DeleteArticle";
 
 type Props = {
   isOpen: boolean;
@@ -25,12 +26,11 @@ type Props = {
   setExists: React.Dispatch<React.SetStateAction<boolean>>;
   setDocumentTags: React.Dispatch<React.SetStateAction<Tag[]>>;
 };
-export const CommandEditModal: React.FC<Props> = (props) => {
+export const UpdateArticle: React.FC<Props> = (props) => {
   const commandRef = useRef<any>(null);
   const descriptionRef = useRef<any>(null);
-
   const tags = useTags();
-
+  const [canSave, setCanSave] = useState<boolean>(false);
   const defaultTags: any[] = props.document.tags.map((tag) => {
     return { label: tag, value: tag };
   });
@@ -42,9 +42,15 @@ export const CommandEditModal: React.FC<Props> = (props) => {
   const [selectedTagsForUpdate, setSelectedTagsForUpdate] =
     useState<Tag[]>(defaultTags);
 
-  const removeNewLine = (e: any) => {
-    const str: string = commandRef.current.value;
-    commandRef.current.value = str.replace(/\n/g, "");
+  const handleChangeCommand = () => {
+    // 改行を入力できないようにする
+    commandRef.current.value = commandRef.current.value.replace(/\n/g, "");
+
+    setCanSave(commandRef.current.value);
+  };
+
+  const handleChangeDescription = () => {
+    setCanSave(descriptionRef.current.value);
   };
 
   const handleChangeCategory = (selectedTags: any) => {
@@ -60,44 +66,28 @@ export const CommandEditModal: React.FC<Props> = (props) => {
           return { value: tag.value, label: tag.label };
         })
     );
-  };
 
-  console.log("commandRef.current:", commandRef.current);
-  const canSave: boolean =
-    // commandRef !== null &&
-    // descriptionRef !== null &&
-    commandRef.current &&
-    descriptionRef.current &&
-    selectedTagsForUpdate.length !== 0;
+    setCanSave(selectedTags.length > 0);
+  };
 
   const handleClickSave = async () => {
-    if (
-      commandRef !== null &&
-      descriptionRef !== null &&
-      commandRef.current !== null &&
-      descriptionRef.current !== null
-    ) {
-      await DocumentAPI.updateDocument({
-        id: props.document.id,
-        tags: selectedTagsForUpdate.map((tag: Tag) => tag.value),
-        command: commandRef.current.value,
-        description: descriptionRef.current.value,
-      } as Document);
-      await TagAPI.addTags(newTagsForUpdate);
-      props.setCommand(commandRef.current.value);
-      props.setDescription(descriptionRef.current.value);
-      props.setDocumentTags(selectedTagsForUpdate);
-      props.onClose();
-    }
-  };
-
-  const deleteClip = async (id: string) => {
-    await DocumentAPI.deleteDocument(id);
+    await DocumentAPI.updateDocument({
+      id: props.document.id,
+      tags: selectedTagsForUpdate.map((tag: Tag) => tag.value),
+      command: commandRef.current.value,
+      description: descriptionRef.current.value,
+    } as Document);
+    await TagAPI.addTags(newTagsForUpdate);
+    props.setCommand(commandRef.current.value);
+    props.setDescription(descriptionRef.current.value);
+    props.setDocumentTags(selectedTagsForUpdate);
+    props.onClose();
   };
 
   const handleClickDelete = () => {
-    props.setExists(false);
-    deleteClip(props.document.id);
+    deleteArticle(props.document.id).then(() => {
+      props.setExists(false);
+    });
   };
 
   return (
@@ -120,7 +110,7 @@ export const CommandEditModal: React.FC<Props> = (props) => {
             <FormLabel>Command</FormLabel>
             <Textarea
               ref={commandRef}
-              onChange={removeNewLine}
+              onChange={handleChangeCommand}
               defaultValue={props.document.command}
               placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります"
             />
@@ -128,6 +118,7 @@ export const CommandEditModal: React.FC<Props> = (props) => {
             <FormLabel>Description</FormLabel>
             <Textarea
               ref={descriptionRef}
+              onChange={handleChangeDescription}
               defaultValue={props.document.description}
               placeholder="コマンドの説明を入力"
             />

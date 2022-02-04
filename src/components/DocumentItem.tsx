@@ -24,7 +24,7 @@ import { useSelectedTags } from "../hooks/useSelectedTag";
 import { useDisclosure } from "@chakra-ui/react";
 import { useLoginUser } from "../hooks/useLoginUser";
 import { useClickable } from "@chakra-ui/clickable";
-import { CommandEditModal } from "./CommandEditModal";
+import { UpdateArticle } from "./UpdateArticle";
 
 export const DocumentItem: React.FC<{ document: Document }> = ({
   document,
@@ -156,7 +156,7 @@ export const DocumentItem: React.FC<{ document: Document }> = ({
               </HStack>
             </Stack>
           </Box>
-          <CommandEditModal
+          <UpdateArticle
             isOpen={isOpen}
             document={document}
             onClose={onClose}
