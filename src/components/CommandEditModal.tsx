@@ -62,12 +62,15 @@ export const CommandEditModal: React.FC<Props> = (props) => {
     );
   };
 
-  const handleClickSave = async () => {
-    if (selectedTagsForUpdate.length === 0) {
-      alert("タグを1つ以上入力してください");
-      return;
-    }
+  console.log("commandRef.current:", commandRef.current);
+  const canSave: boolean =
+    // commandRef !== null &&
+    // descriptionRef !== null &&
+    commandRef.current &&
+    descriptionRef.current &&
+    selectedTagsForUpdate.length !== 0;
 
+  const handleClickSave = async () => {
     if (
       commandRef !== null &&
       descriptionRef !== null &&
@@ -131,7 +134,12 @@ export const CommandEditModal: React.FC<Props> = (props) => {
             <StackDivider />
             <HStack>
               <Spacer />
-              <Button w="200px" colorScheme="teal" onClick={handleClickSave}>
+              <Button
+                w="200px"
+                colorScheme="teal"
+                isDisabled={!canSave}
+                onClick={handleClickSave}
+              >
                 保存
               </Button>
               <Spacer />
