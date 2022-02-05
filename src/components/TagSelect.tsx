@@ -15,14 +15,21 @@ import { useTags } from "../hooks/useTags";
 import Fuse from "fuse.js";
 import { Tag as TagUi } from "@chakra-ui/react";
 import { useClickable } from "@chakra-ui/clickable";
-import { AiFillTags, AiOutlineFilter, AiOutlineTags } from "react-icons/ai";
+import {
+  AiFillFilter,
+  AiFillTags,
+  AiOutlineFilter,
+  AiOutlineTags,
+} from "react-icons/ai";
 import { IconContext } from "react-icons";
+import { useSettings } from "../hooks/useSetings";
 
 export const TagSelect = () => {
   const tags = useTags();
   const selectedTag = useSelectedTags();
   const filterWord = useFilterWord();
   const [notSelectedTags, setNotSelectedTags] = useState<string[]>([]);
+  const settings = useSettings();
 
   useEffect(() => {
     if (filterWord?.filterWord && filterWord?.filterWord.length >= 2) {
@@ -82,24 +89,53 @@ export const TagSelect = () => {
     );
   };
 
+  const toggleFilterMyCommand = () => {
+    settings.setfilterMyCommand((prev) => !prev);
+  };
+
   return (
     <Box>
       <Stack>
         <HStack>
           <Wrap>
-            <WrapItem>
-              <IconContext.Provider value={{ color: "#888" }}>
-                <AiOutlineFilter size={20} />
-              </IconContext.Provider>
-            </WrapItem>
+            {settings.filterMyCommand ? (
+              <WrapItem>
+                <Clickable
+                  as="div"
+                  onClick={toggleFilterMyCommand}
+                  _disabled={{ opacity: 0.4, pointerEvents: "none" }}
+                  borderRadius="md"
+                >
+                  <IconContext.Provider value={{ color: "#077" }}>
+                    <AiFillFilter size={20} />
+                  </IconContext.Provider>
+                </Clickable>
+              </WrapItem>
+            ) : (
+              <WrapItem>
+                <Clickable
+                  as="div"
+                  _disabled={{ opacity: 0.4, pointerEvents: "none" }}
+                  borderRadius="md"
+                >
+                  <IconContext.Provider value={{ color: "#888" }}>
+                    <AiOutlineFilter size={20} />
+                  </IconContext.Provider>
+                </Clickable>
+              </WrapItem>
+            )}
             <WrapItem>
               <Clickable
                 as="div"
-                onClick={removeAllFromSelected}
+                onClick={toggleFilterMyCommand}
                 _disabled={{ opacity: 0.4, pointerEvents: "none" }}
                 borderRadius="md"
               >
-                <TagUi _hover={{ opacity: 0.6 }} colorScheme="gray" size="sm">
+                <TagUi
+                  _hover={{ opacity: 0.6 }}
+                  colorScheme={settings.filterMyCommand ? "teal" : "gray"}
+                  size="sm"
+                >
                   自分が投稿
                 </TagUi>
               </Clickable>

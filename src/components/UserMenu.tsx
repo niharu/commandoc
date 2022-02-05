@@ -9,15 +9,7 @@ import {
 } from "firebase/auth";
 import { useLoginUser } from "../hooks/useLoginUser";
 import { AddDocument } from "./AddDocument";
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuOptionGroup,
-  MenuDivider,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useSettings } from "../hooks/useSetings";
 import { Login } from "./Login";
@@ -64,10 +56,6 @@ export const UserMenu = () => {
     }
   };
 
-  const handleChangeSettings = (e: string | string[]) => {
-    settings.setfilterMyCommand(e.includes("filterMyCommand"));
-  };
-
   return (
     <>
       <Fade in={true}>
@@ -97,15 +85,6 @@ export const UserMenu = () => {
                     icon={<HamburgerIcon />}
                   ></MenuButton>
                   <MenuList>
-                    <MenuOptionGroup
-                      type="checkbox"
-                      onChange={handleChangeSettings}
-                    >
-                      <MenuItemOption value="filterMyCommand">
-                        自分が作成したコマンドのみ表示
-                      </MenuItemOption>
-                    </MenuOptionGroup>
-                    <MenuDivider />
                     <MenuItem onClick={logout}>ログアウト</MenuItem>
                     <MenuItem color="red.400" onClick={deleteTmp}>
                       アカウント削除
