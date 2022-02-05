@@ -53,11 +53,9 @@ export const DocumentItem: React.FC<{ document: Document }> = ({
   const copy = () => {
     navigator.clipboard.writeText(document.command);
     toast({
-      // title: 'Account created.',
       description: "コマンドをクリップボードにコピーしました",
       status: "success",
       duration: 3000,
-      // isClosable: true,
     });
   };
 

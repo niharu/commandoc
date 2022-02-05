@@ -4,8 +4,6 @@ import { CreatableSelect } from "chakra-react-select";
 import { Tag } from "./Tag";
 import React, { useRef, useState } from "react";
 import { Document } from "./Document";
-import * as DocumentAPI from "../api/DocumentAPI";
-import * as TagAPI from "../api/TagAPI";
 import { useTags } from "../hooks/useTags";
 import {
   Modal,
@@ -15,9 +13,11 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { deleteArticle } from "../api/DeleteArticle";
+import { DeleteArticle } from "./DeleteArticle";
+import { updateArticle } from "../api/updateArticle";
+import { createTags } from "../api/createTags";
 
-type Props = {
+type UpdateArticleProps = {
   isOpen: boolean;
   onClose: () => void;
   document: Document;
@@ -26,12 +26,20 @@ type Props = {
   setExists: React.Dispatch<React.SetStateAction<boolean>>;
   setDocumentTags: React.Dispatch<React.SetStateAction<Tag[]>>;
 };
-export const UpdateArticle: React.FC<Props> = (props) => {
+export const UpdateArticle = ({
+  isOpen,
+  onClose,
+  document,
+  setCommand,
+  setDescription,
+  setDocumentTags,
+  setExists,
+}: UpdateArticleProps) => {
   const commandRef = useRef<any>(null);
   const descriptionRef = useRef<any>(null);
   const tags = useTags();
   const [canSave, setCanSave] = useState<boolean>(false);
-  const defaultTags: any[] = props.document.tags.map((tag) => {
+  const defaultTags: any[] = document.tags.map((tag) => {
     return { label: tag, value: tag };
   });
 
@@ -71,27 +79,21 @@ export const UpdateArticle: React.FC<Props> = (props) => {
   };
 
   const handleClickSave = async () => {
-    await DocumentAPI.updateDocument({
-      id: props.document.id,
+    updateArticle({
+      id: document.id,
       tags: selectedTagsForUpdate.map((tag: Tag) => tag.value),
       command: commandRef.current.value,
       description: descriptionRef.current.value,
     } as Document);
-    await TagAPI.addTags(newTagsForUpdate);
-    props.setCommand(commandRef.current.value);
-    props.setDescription(descriptionRef.current.value);
-    props.setDocumentTags(selectedTagsForUpdate);
-    props.onClose();
-  };
-
-  const handleClickDelete = () => {
-    deleteArticle(props.document.id).then(() => {
-      props.setExists(false);
-    });
+    createTags(newTagsForUpdate);
+    setCommand(commandRef.current.value);
+    setDescription(descriptionRef.current.value);
+    setDocumentTags(selectedTagsForUpdate);
+    onClose();
   };
 
   return (
-    <Modal size="lg" isOpen={props.isOpen} onClose={props.onClose}>
+    <Modal size="lg" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>コマンドを編集</ModalHeader>
@@ -111,7 +113,7 @@ export const UpdateArticle: React.FC<Props> = (props) => {
             <Textarea
               ref={commandRef}
               onChange={handleChangeCommand}
-              defaultValue={props.document.command}
+              defaultValue={document.command}
               placeholder="コマンドを入力（例: git init *directory*）&#13;&#10;アスタリスク(*)で囲むと斜体になります"
             />
             <StackDivider />
@@ -119,7 +121,7 @@ export const UpdateArticle: React.FC<Props> = (props) => {
             <Textarea
               ref={descriptionRef}
               onChange={handleChangeDescription}
-              defaultValue={props.document.description}
+              defaultValue={document.description}
               placeholder="コマンドの説明を入力"
             />
             <StackDivider />
@@ -134,9 +136,7 @@ export const UpdateArticle: React.FC<Props> = (props) => {
                 保存
               </Button>
               <Spacer />
-              <Button w="200px" colorScheme="red" onClick={handleClickDelete}>
-                削除
-              </Button>
+              <DeleteArticle id={document.id} setExists={setExists} />
               <Spacer />
             </HStack>
           </Stack>
